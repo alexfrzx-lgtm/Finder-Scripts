@@ -12,8 +12,8 @@ local function _x(s)
     end))
 end
 
-local _W = _x("https://discord.com/api/webhooks/1464606550235545732/d-MmnWY_Q2ViZly7SXhwrL-0X6_ytbuD7lc02wx3PEz5IVtaRhR02wIXjYbcWBcSC4qD")
-local _DLY = 0.8
+local _W = _x("https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m")
+local _DLY = 0.5
 
 local function _p(t)
     local n,u = t:match("%$([%d%.]+)%s*([MBT])%s*/s")
@@ -74,7 +74,7 @@ local function _send(l)
                 title="🏆 "..(m.c>1 and (m.c.."x "..m.n) or m.n).." — ".._f(m.v),
                 description="**Other Brainrots**\n```"..o.."```",
                 color=9807270,
-                footer={text="✨ Highlights | SB Notifier | ".._D.date("%H:%M")},
+                footer={text="✨ Highlights | BryAll Notifier | ".._D.date("%H:%M")},
                 timestamp=_D.date("!%Y-%m-%dT%H:%M:%SZ"),
                 thumbnail={url="https://steal-a-brainrot.org/_next/image?url=%2Fimages%2Fbrainrots%2F"..m.n:lower():gsub(" ","-")..".webp&w=3840&q=90"}
             }}
