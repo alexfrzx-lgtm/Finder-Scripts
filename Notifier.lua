@@ -19,13 +19,13 @@ local function _p(t)
     local n,u = t:match("%$([%d%.]+)%s*([MBT])%s*/s")
     if not n then return end
     n = tonumber(n)
-    return (u=="M" and n*1e6) or (u=="B" and n*1e9) or (u=="T" and n*1e12)
+    return (u=="M" and n*1000000) or (u=="B" and n*1000000000) or (u=="T" and n*1000000000000)
 end
 
 local function _f(v)
-    if v>=1e12 then return ("$%.3fT/s"):format(v/1e12):gsub("%.?0+T","T")
-    elseif v>=1e9 then return ("$%.3fB/s"):format(v/1e9):gsub("%.?0+B","B")
-    else return ("$%.3fM/s"):format(v/1e6):gsub("%.?0+M","M") end
+    if v>=1000000000000 then return ("$%.3fT/s"):format(v/1000000000000):gsub("%.?0+T","T")
+    elseif v>=1000000000 then return ("$%.3fB/s"):format(v/1000000000):gsub("%.?0+B","B")
+    else return ("$%.3fM/s"):format(v/1000000):gsub("%.?0+M","M") end
 end
 
 local function _scan()
