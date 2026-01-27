@@ -1,30 +1,36 @@
 ------------------------------------------------
--- 🔥 BRYALL ESP + RED NEON GLOW PARA 3 USUARIOS
+-- 🔥 BRYALL ESP + RED NEON GLOW (ID PROTECTED)
 ------------------------------------------------
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Camera = workspace.CurrentCamera
+local LocalPlayer = Players.LocalPlayer
 
 ------------------------------------------------
 -- 🎨 CONFIG (ROJO NEÓN)
 ------------------------------------------------
-local NEON_COLOR = Color3.fromRGB(255, 0, 60) -- 🔴 ROJO NEÓN
+local NEON_COLOR = Color3.fromRGB(255, 0, 60)
 
--- lista de UserIds permitidos
+-- ✅ IDs PERMITIDOS
 local ALLOWED_IDS = {
     [7703209387] = true,
     [9010025682] = true,
-    [3356311459] = true,
+    [3356311459] = true, -- tú
 }
 
 ------------------------------------------------
--- 👤 ESP + FADE TEXTO
+-- 🚫 KICK SI EL ID NO ESTÁ REGISTRADO
 ------------------------------------------------
-local function applyESP(char, userId)
-    -- solo si está en la lista
-    if not ALLOWED_IDS[userId] then return end
+if not ALLOWED_IDS[LocalPlayer.UserId] then
+    LocalPlayer:Kick("ID No Registrado")
+    return
+end
 
+------------------------------------------------
+-- 👤 ESP + FADE TEXTO (SOLO IDS PERMITIDOS)
+------------------------------------------------
+local function applyESP(char)
     local head = char:WaitForChild("Head", 5)
     local hrp = char:WaitForChild("HumanoidRootPart", 5)
     if not head or not hrp then return end
@@ -37,7 +43,7 @@ local function applyESP(char, userId)
         char.BRYALL_GLOW:Destroy()
     end
 
-    -- 🔴 GLOW NEÓN
+    -- 🔴 GLOW ROJO NEÓN
     local glow = Instance.new("Highlight")
     glow.Name = "BRYALL_GLOW"
     glow.FillColor = NEON_COLOR
@@ -77,18 +83,14 @@ local function applyESP(char, userId)
     end)
 end
 
--- aplicar a todos los jugadores, pero solo 3
+-- aplicar ESP a todos (solo visible para IDs permitidos)
 for _, plr in ipairs(Players:GetPlayers()) do
     if plr.Character then
-        applyESP(plr.Character, plr.UserId)
+        applyESP(plr.Character)
     end
-    plr.CharacterAdded:Connect(function(char)
-        applyESP(char, plr.UserId)
-    end)
+    plr.CharacterAdded:Connect(applyESP)
 end
 
 Players.PlayerAdded:Connect(function(plr)
-    plr.CharacterAdded:Connect(function(char)
-        applyESP(char, plr.UserId)
-    end)
+    plr.CharacterAdded:Connect(applyESP)
 end)
