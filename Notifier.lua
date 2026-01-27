@@ -3,6 +3,7 @@ task.wait(1)
 ---------------- CONFIG ----------------
 local WEBHOOK_URL = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
 local SCAN_DELAY = 0.8
+local MIN_PRODUCTION = 10_000_000 -- 🔥 10 MILLONES
 --------------------------------------
 
 local HttpService = game:GetService("HttpService")
@@ -45,7 +46,9 @@ local function scan()
     for _,ui in ipairs(workspace:GetDescendants()) do
         if ui:IsA("TextLabel") then
             local value = parseProduction(ui.Text)
-            if value then
+
+            -- 🔥 SOLO 10M PARA ARRIBA
+            if value and value >= MIN_PRODUCTION then
                 local parent = ui.Parent
                 local nameLabel
 
