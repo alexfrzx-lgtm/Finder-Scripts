@@ -2,7 +2,7 @@ task.wait(1)
 
 ---------------- CONFIG ----------------
 local WEBHOOK_URL = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
-local SCAN_DELAY = 0.3
+local SCAN_DELAY = 0.5
 local MIN_PRODUCTION = 10_000_000 -- 🔥 10 MILLONES
 --------------------------------------
 
