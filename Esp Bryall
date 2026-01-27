@@ -1,0 +1,94 @@
+------------------------------------------------
+-- 🔥 BRYALL ESP + RED NEON GLOW PARA 3 USUARIOS
+------------------------------------------------
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
+
+------------------------------------------------
+-- 🎨 CONFIG (ROJO NEÓN)
+------------------------------------------------
+local NEON_COLOR = Color3.fromRGB(255, 0, 60) -- 🔴 ROJO NEÓN
+
+-- lista de UserIds permitidos
+local ALLOWED_IDS = {
+    [7703209387] = true,
+    [9010025682] = true,
+    [3356311459] = true,
+}
+
+------------------------------------------------
+-- 👤 ESP + FADE TEXTO
+------------------------------------------------
+local function applyESP(char, userId)
+    -- solo si está en la lista
+    if not ALLOWED_IDS[userId] then return end
+
+    local head = char:WaitForChild("Head", 5)
+    local hrp = char:WaitForChild("HumanoidRootPart", 5)
+    if not head or not hrp then return end
+
+    -- limpiar
+    if head:FindFirstChild("BRYALL_GUI") then
+        head.BRYALL_GUI:Destroy()
+    end
+    if char:FindFirstChild("BRYALL_GLOW") then
+        char.BRYALL_GLOW:Destroy()
+    end
+
+    -- 🔴 GLOW NEÓN
+    local glow = Instance.new("Highlight")
+    glow.Name = "BRYALL_GLOW"
+    glow.FillColor = NEON_COLOR
+    glow.OutlineColor = NEON_COLOR
+    glow.FillTransparency = 0.45
+    glow.OutlineTransparency = 0
+    glow.Parent = char
+
+    -- 🏷️ TEXTO
+    local gui = Instance.new("BillboardGui")
+    gui.Name = "BRYALL_GUI"
+    gui.Size = UDim2.new(0, 180, 0, 30)
+    gui.StudsOffset = Vector3.new(0, 3, 0)
+    gui.AlwaysOnTop = true
+    gui.MaxDistance = 150
+    gui.Parent = head
+
+    local txt = Instance.new("TextLabel")
+    txt.Size = UDim2.new(1, 0, 1, 0)
+    txt.BackgroundTransparency = 1
+    txt.Text = "BryAll User"
+    txt.Font = Enum.Font.GothamBold
+    txt.TextSize = 20
+    txt.TextColor3 = NEON_COLOR
+    txt.TextStrokeColor3 = NEON_COLOR
+    txt.TextStrokeTransparency = 0.25
+    txt.Parent = gui
+
+    -- 🌫️ FADE CON DISTANCIA
+    RunService.RenderStepped:Connect(function()
+        if not hrp or not Camera then return end
+        local dist = (Camera.CFrame.Position - hrp.Position).Magnitude
+
+        local alpha = math.clamp(1 - (dist / 120), 0, 1)
+        txt.TextTransparency = 1 - alpha
+        txt.TextStrokeTransparency = 1 - (alpha * 0.7)
+    end)
+end
+
+-- aplicar a todos los jugadores, pero solo 3
+for _, plr in ipairs(Players:GetPlayers()) do
+    if plr.Character then
+        applyESP(plr.Character, plr.UserId)
+    end
+    plr.CharacterAdded:Connect(function(char)
+        applyESP(char, plr.UserId)
+    end)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    plr.CharacterAdded:Connect(function(char)
+        applyESP(char, plr.UserId)
+    end)
+end)
