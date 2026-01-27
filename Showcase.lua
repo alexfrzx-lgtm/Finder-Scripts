@@ -1,92 +1,154 @@
-pcall(function()
-
 task.wait(5)
 
-local _A,_B,_C,_D,_E = game:GetService("HttpService"),workspace,game:GetService("Players"),os,string
-local _R = (request) or (http and http.request) or (syn and syn.request)
-if not _R then return end
+---------------- CONFIG ----------------
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
+local SCAN_DELAY = 0.3
+--------------------------------------
 
-local function _d(s)
-    return (s:gsub(".", function(c)
-        return string.char(string.byte(c))
-    end))
-end
+local HttpService = game:GetService("HttpService")
 
-local _W = _d("https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m")
-local _DELAY = 0.3
-local _MIN = 10_000_000 -- 🔥 10 MILLONES
+local http_request =
+    (request) or
+    (http and http.request) or
+    (syn and syn.request)
 
-local function _p(t)
-    local n,u = t:match("%$([%d%.]+)%s*([MBT])%s*/s")
+if not http_request then return end
+
+--------------------------------------------------
+-- 🔧 PRODUCCIÓN
+--------------------------------------------------
+local function parseProduction(text)
+    local n, u = text:match("%$([%d%.]+)%s*([MBT])%s*/s")
     if not n then return end
     n = tonumber(n)
-    return (u=="M" and n*1e6) or (u=="B" and n*1e9) or (u=="T" and n*1e12)
+    if u == "M" then return n * 1e6 end
+    if u == "B" then return n * 1e9 end
+    if u == "T" then return n * 1e12 end
 end
 
-local function _f(v)
-    if v>=1e12 then return ("$%.3fT/s"):format(v/1e12):gsub("%.?0+T","T")
-    elseif v>=1e9 then return ("$%.3fB/s"):format(v/1e9):gsub("%.?0+B","B")
-    else return ("$%.3fM/s"):format(v/1e6):gsub("%.?0+M","M") end
+local function format(v)
+    if v >= 1e12 then
+        return string.format("$%.3fT/s", v/1e12):gsub("%.?0+T","T")
+    elseif v >= 1e9 then
+        return string.format("$%.3fB/s", v/1e9):gsub("%.?0+B","B")
+    else
+        return string.format("$%.3fM/s", v/1e6):gsub("%.?0+M","M")
+    end
 end
 
-local function _s()
-    local r={}
-    for _,u in ipairs(_B:GetDescendants()) do
-        if u:IsA("TextLabel") then
-            local v=_p(u.Text)
+--------------------------------------------------
+-- 🔍 SCAN
+--------------------------------------------------
+local function scan()
+    local found = {}
 
-            -- 🔥 SOLO 10M PARA ARRIBA
-            if v and v >= _MIN then
-                for _,c in ipairs(u.Parent:GetChildren()) do
+    for _,ui in ipairs(workspace:GetDescendants()) do
+        if ui:IsA("TextLabel") then
+            local value = parseProduction(ui.Text)
+            if value then
+                local parent = ui.Parent
+                local nameLabel
+
+                for _,c in ipairs(parent:GetChildren()) do
                     if c:IsA("TextLabel") and not c.Text:find("%$") then
-                        r[c.Text]=r[c.Text] or {n=c.Text,v=v,c=0}
-                        r[c.Text].c+=1
+                        nameLabel = c
                         break
+                    end
+                end
+
+                if nameLabel then
+                    if not found[nameLabel.Text] then
+                        found[nameLabel.Text] = {
+                            name = nameLabel.Text,
+                            value = value,
+                            count = 1
+                        }
+                    else
+                        found[nameLabel.Text].count += 1
                     end
                 end
             end
         end
     end
-    local l={}
-    for _,x in pairs(r) do table.insert(l,x) end
-    return l
+
+    local list = {}
+    for _,v in pairs(found) do
+        table.insert(list, v)
+    end
+
+    return list
 end
 
-local _H=nil
+--------------------------------------------------
+-- 📤 WEBHOOK
+--------------------------------------------------
+local lastHash
 
-local function _send(l)
-    if #l==0 then return end
-    table.sort(l,function(a,b)return a.v>b.v end)
-    local m=l[1]
-    local o=""
-    for i=2,#l do
-        o=o..(i-1)..". "..(l[i].c>1 and (l[i].c.."x "..l[i].n) or l[i].n).." — ".._f(l[i].v).."\n"
+local function send(list)
+    if #list == 0 then return end
+
+    table.sort(list, function(a,b)
+        return a.value > b.value
+    end)
+
+    local main = list[1]
+
+    local function displayName(b)
+        if b.count > 1 then
+            return b.count.."x "..b.name
+        else
+            return b.name
+        end
     end
-    if o=="" then o="_No other brainrots detected_" end
-    local h=m.n..m.v..m.c..o
-    if _H==h then return end
-    _H=h
 
-    _R({
-        Url=_W,
-        Method="POST",
-        Headers={["Content-Type"]="application/json"},
-        Body=_A:JSONEncode({
-            embeds={{
-                title="🏆 "..(m.c>1 and (m.c.."x "..m.n) or m.n).." — ".._f(m.v),
-                description="**Other Brainrots**\n```text\n"..o.."\n```",
-                color=9807270,
-                thumbnail={url="https://steal-a-brainrot.org/_next/image?url=%2Fimages%2Fbrainrots%2F"..m.n:lower():gsub(" ","-")..".webp&w=3840&q=90"},
-                fields={{name="**Server ID**",value="😂",inline=false}},
-                footer={text="✨ Showcase | SB Notifier | ".._E.date("%H:%M")}
+    local others = ""
+    for i = 2, #list do
+        others = others .. (i-1)..". "..displayName(list[i]).." — "..format(list[i].value).."\n"
+    end
+
+    if others == "" then
+        others = "_No other brainrots detected_"
+    end
+
+    local hash = main.name .. main.value .. main.count .. others
+    if lastHash == hash then return end
+    lastHash = hash
+
+    local timeNow = os.date("%H:%M")
+
+    http_request({
+        Url = WEBHOOK_URL,
+        Method = "POST",
+        Headers = {["Content-Type"] = "application/json"},
+        Body = HttpService:JSONEncode({
+            embeds = {{
+                title = "🏆 "..displayName(main).." — "..format(main.value),
+                description =
+                    "**Other Brainrots**\n```text\n"..others.."\n```",
+                color = 9807270,
+                thumbnail = {
+                    url = "https://steal-a-brainrot.org/_next/image?url=%2Fimages%2Fbrainrots%2F"
+                        .. main.name:lower():gsub(" ","-") .. ".webp&w=3840&q=90"
+                },
+                fields = {
+                    {
+                        name = "**Server ID**",
+                        value = "😂",
+                        inline = false
+                    }
+                },
+                footer = {
+                    text = "✨ Showcase | Bryall Notifier | "..timeNow
+                }
             }}
         })
     })
 end
 
+--------------------------------------------------
+-- 🔁 LOOP
+--------------------------------------------------
 while true do
-    _send(_s())
-    task.wait(_DELAY)
+    send(scan())
+    task.wait(SCAN_DELAY)
 end
-
-end)
