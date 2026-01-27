@@ -2,7 +2,7 @@
 task.wait(2)
 
 ---------------- CONFIG ----------------
-local HOP_DELAY = 45
+local HOP_DELAY = 30
 local RETRY_DELAY = 5
 --------------------------------------
 
