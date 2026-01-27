@@ -14,6 +14,7 @@ end
 
 local _W = _d("https://discord.com/api/webhooks/1464606550235545732/d-MmnWY_Q2ViZly7SXhwrL-0X6_ytbuD7lc02wx3PEz5IVtaRhR02wIXjYbcWBcSC4qD")
 local _DELAY = 0.3
+local _MIN = 10_000_000 -- 🔥 10 MILLONES
 
 local function _p(t)
     local n,u = t:match("%$([%d%.]+)%s*([MBT])%s*/s")
@@ -33,7 +34,9 @@ local function _s()
     for _,u in ipairs(_B:GetDescendants()) do
         if u:IsA("TextLabel") then
             local v=_p(u.Text)
-            if v then
+
+            -- 🔥 SOLO 10M PARA ARRIBA
+            if v and v >= _MIN then
                 for _,c in ipairs(u.Parent:GetChildren()) do
                     if c:IsA("TextLabel") and not c.Text:find("%$") then
                         r[c.Text]=r[c.Text] or {n=c.Text,v=v,c=0}
