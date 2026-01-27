@@ -1,5 +1,5 @@
 ------------------------------------------------
--- 🔥 BRYALL ESP + RED NEON GLOW (ID PROTECTED)
+-- 🔥 BRYALL PRIVATE ESP + RED NEON
 ------------------------------------------------
 
 local Players = game:GetService("Players")
@@ -8,29 +8,35 @@ local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
 ------------------------------------------------
--- 🎨 CONFIG (ROJO NEÓN)
+-- 🎨 CONFIG
 ------------------------------------------------
 local NEON_COLOR = Color3.fromRGB(255, 0, 60)
 
--- ✅ IDs PERMITIDOS
-local ALLOWED_IDS = {
+-- 🆔 IDS BRYALL
+local BRYALL_IDS = {
     [7703209387] = true,
     [9010025682] = true,
     [3356311459] = true, -- tú
 }
 
 ------------------------------------------------
--- 🚫 KICK SI EL ID NO ESTÁ REGISTRADO
+-- 🚫 BLOQUEAR SI NO ES BRYALL
 ------------------------------------------------
-if not ALLOWED_IDS[LocalPlayer.UserId] then
+if not BRYALL_IDS[LocalPlayer.UserId] then
     LocalPlayer:Kick("ID No Registrado")
     return
 end
 
 ------------------------------------------------
--- 👤 ESP + FADE TEXTO (SOLO IDS PERMITIDOS)
+-- 👤 ESP (SOLO A BRYALL)
 ------------------------------------------------
-local function applyESP(char)
+local function applyESP(player)
+    -- ⛔ no aplicar si NO es BryAll
+    if not BRYALL_IDS[player.UserId] then return end
+
+    local char = player.Character
+    if not char then return end
+
     local head = char:WaitForChild("Head", 5)
     local hrp = char:WaitForChild("HumanoidRootPart", 5)
     if not head or not hrp then return end
@@ -43,7 +49,7 @@ local function applyESP(char)
         char.BRYALL_GLOW:Destroy()
     end
 
-    -- 🔴 GLOW ROJO NEÓN
+    -- 🔴 GLOW NEÓN
     local glow = Instance.new("Highlight")
     glow.Name = "BRYALL_GLOW"
     glow.FillColor = NEON_COLOR
@@ -83,14 +89,20 @@ local function applyESP(char)
     end)
 end
 
--- aplicar ESP a todos (solo visible para IDs permitidos)
+------------------------------------------------
+-- 🔁 APLICAR SOLO ENTRE USTEDES
+------------------------------------------------
 for _, plr in ipairs(Players:GetPlayers()) do
     if plr.Character then
-        applyESP(plr.Character)
+        applyESP(plr)
     end
-    plr.CharacterAdded:Connect(applyESP)
+    plr.CharacterAdded:Connect(function()
+        applyESP(plr)
+    end)
 end
 
 Players.PlayerAdded:Connect(function(plr)
-    plr.CharacterAdded:Connect(applyESP)
+    plr.CharacterAdded:Connect(function()
+        applyESP(plr)
+    end)
 end)
