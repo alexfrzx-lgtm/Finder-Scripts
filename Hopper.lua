@@ -1,9 +1,9 @@
--- SB Server Hop FINAL REAL (2 MIN + ANTI AFK + ANTI DC)
+-- SB Server Hop FINAL REAL (2 MIN + ANTI AFK + ANTI DC + FIX FREEZE)
 
 task.wait(2)
 
 ---------------- CONFIG ----------------
-local HOP_DELAY = 120 -- 2 MINUTOS
+local HOP_DELAY = 120
 local RETRY_DELAY = 5
 --------------------------------------
 
@@ -119,49 +119,81 @@ task.spawn(function()
 		task.wait(10)
 		t -= 10
 	end
-
 	startAlarm()
 	label.Text = "Searching for <b>server</b>"
 end)
 
 --------------------------------------------------
--- SERVER FETCH
+-- SERVER FETCH (FIXED)
 --------------------------------------------------
 local triedServers = {}
+local badServers = {}
+
+local MIN_PLAYERS = 2
+local MIN_FREE_SLOTS = 1
 
 local function getNextServer()
-	local url = "https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?limit=100&sortOrder=Asc"
-	local data = HttpService:JSONDecode(game:HttpGet(url))
+	local success, data = pcall(function()
+		return HttpService:JSONDecode(
+			game:HttpGet("https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?limit=100&sortOrder=Desc")
+		)
+	end)
 
-	for _,server in ipairs(data.data) do
+	if not success or not data or not data.data then
+		return nil
+	end
+
+	for _, server in ipairs(data.data) do
+		local freeSlots = server.maxPlayers - server.playing
 		if server.id ~= CURRENT_JOB_ID
 		and not triedServers[server.id]
-		and server.playing < server.maxPlayers then
+		and not badServers[server.id]
+		and server.playing >= MIN_PLAYERS
+		and freeSlots >= MIN_FREE_SLOTS then
 			return server.id
 		end
 	end
 end
 
 --------------------------------------------------
--- TELEPORT (ANTI DC)
+-- TELEPORT (ANTI FREEZE)
 --------------------------------------------------
+local searchingTries = 0
+
 local function hop()
+	searchingTries += 1
+
 	local serverId = getNextServer()
 
 	if serverId then
+		searchingTries = 0
 		triedServers[serverId] = true
 		stopAlarm()
 		glowRunning = false
 		TeleportService:TeleportToPlaceInstance(PLACE_ID, serverId, player)
 	else
-		label.Text = "Retrying..."
-		task.delay(RETRY_DELAY, hop)
+		label.Text = "Searching server ("..searchingTries..")"
+		if searchingTries >= 4 then
+			local data = HttpService:JSONDecode(
+				game:HttpGet("https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?limit=100")
+			)
+			for _, server in ipairs(data.data) do
+				if server.id ~= CURRENT_JOB_ID then
+					TeleportService:TeleportToPlaceInstance(PLACE_ID, server.id, player)
+					return
+				end
+			end
+		end
+		task.delay(RETRY_DELAY + 5, hop)
 	end
 end
 
 TeleportService.TeleportInitFailed:Connect(function()
+	for id,_ in pairs(triedServers) do
+		badServers[id] = true
+	end
 	startAlarm()
-	task.delay(RETRY_DELAY, hop)
+	task.delay(RETRY_DELAY + 5, hop)
 end)
 
 task.delay(HOP_DELAY, hop)
