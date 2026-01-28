@@ -1,8 +1,9 @@
--- SB Server Hop FINAL REAL (no same server, no freeze)
+-- SB Server Hop FINAL REAL (2 MIN + ANTI AFK + ANTI DC)
+
 task.wait(2)
 
 ---------------- CONFIG ----------------
-local HOP_DELAY = 30
+local HOP_DELAY = 120 -- 2 MINUTOS
 local RETRY_DELAY = 5
 --------------------------------------
 
@@ -11,13 +12,23 @@ local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 local TweenService = game:GetService("TweenService")
 local ContentProvider = game:GetService("ContentProvider")
+local VirtualUser = game:GetService("VirtualUser")
 
 local player = Players.LocalPlayer
 local PLACE_ID = game.PlaceId
 local CURRENT_JOB_ID = game.JobId
 
 --------------------------------------------------
--- SOUND (GUARANTEED PLAY)
+-- 🛡️ ANTI AFK
+--------------------------------------------------
+player.Idled:Connect(function()
+	VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+	task.wait(1)
+	VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+end)
+
+--------------------------------------------------
+-- SOUND
 --------------------------------------------------
 local alarm = Instance.new("Sound")
 alarm.SoundId = "rbxassetid://5476307813"
@@ -55,7 +66,6 @@ stroke.Color = Color3.fromRGB(120,120,120)
 stroke.Thickness = 1
 stroke.Transparency = 0.5
 
--- Glow lento
 local glowIn = TweenService:Create(stroke, TweenInfo.new(1.6), {Transparency = 0.2, Thickness = 2})
 local glowOut = TweenService:Create(stroke, TweenInfo.new(1.6), {Transparency = 0.5, Thickness = 1})
 
@@ -75,7 +85,7 @@ label.TextColor3 = Color3.fromRGB(230,230,230)
 label.Font = Enum.Font.SourceSansBold
 label.TextSize = 18
 label.RichText = true
-label.Text = "Server hop in <b>60</b>s"
+label.Text = "Server hop in <b>120</b>s"
 
 --------------------------------------------------
 -- PROGRESS BAR
@@ -106,8 +116,8 @@ task.spawn(function()
 	local t = HOP_DELAY
 	while t > 0 do
 		label.Text = "Server hop in <b>"..t.."</b>s"
-		task.wait(5)
-		t -= 5
+		task.wait(10)
+		t -= 10
 	end
 
 	startAlarm()
@@ -115,7 +125,7 @@ task.spawn(function()
 end)
 
 --------------------------------------------------
--- SERVER FETCH (BLACKLIST)
+-- SERVER FETCH
 --------------------------------------------------
 local triedServers = {}
 
@@ -133,7 +143,7 @@ local function getNextServer()
 end
 
 --------------------------------------------------
--- TELEPORT LOOP (REAL RETRY)
+-- TELEPORT (ANTI DC)
 --------------------------------------------------
 local function hop()
 	local serverId = getNextServer()
