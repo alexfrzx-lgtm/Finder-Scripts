@@ -130,6 +130,9 @@ local BRAINROT_IMAGES = {
 -- N
 ["Nuclearo Dinossauro"] = "https://static.wikia.nocookie.net/stealabr/images/c/c6/Nuclearo_Dinosauro.png",
 ["Noo my Candy"] = "https://static.wikia.nocookie.net/stealabr/images/1/12/Noo_my_candy_transparent.png",
+["Noo my Present"] = "https://static.wikia.nocookie.net/stealabr/images/3/35/Noo_my_Present.png",
+["Naughty Naughty"] = "https://static.wikia.nocookie.net/stealabr/images/1/13/Sought_the_naught.png",
+
 
 -- O
 ["Orcaledon"] = "https://static.wikia.nocookie.net/stealabr/images/a/a6/Orcaledon.png",
