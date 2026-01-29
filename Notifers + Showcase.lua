@@ -10,8 +10,8 @@ local MIN_PRODUCTION_100M = 100_000_000
 
 -- 🔔 PINGS (TODO CONFIGURABLE)
 local ROLE_ID = "1466283703083995361"
-local PING_ROLE_AT = 300_000_000      -- ping role en webhook 2
-local PING_HERE_AT = 150_000_000      -- ping @here en showcase
+local PING_ROLE_AT = 455_000_000      -- ping role en webhook 2
+local PING_HERE_AT = 550_000_000      -- ping @here en showcase
 
 local SCAN_DELAY = 0.5
 
@@ -63,11 +63,12 @@ local BRAINROT_IMAGES = {
 ["Dragon Gingerinni"] = "https://static.wikia.nocookie.net/stealabr/images/3/3a/DragonGingerini.png",
 
 -- E
-["Esok Sekohla"] = "https://static.wikia.nocookie.net/stealabr/images/2/2a/EsokSekolah2.png",
+["Esok Sekolah"] = "https://static.wikia.nocookie.net/stealabr/images/2/2a/EsokSekolah2.png",
 ["Eviledon"] = "https://static.wikia.nocookie.net/stealabr/images/7/78/Eviledonn.png",
 
 -- F
 ["Festive 67"] = "https://static.wikia.nocookie.net/stealabr/images/c/c8/TransparentFestive67.png",
+["67"] = "https://static.wikia.nocookie.net/stealabr/images/8/83/BOIIIIIII_SIX_SEVEN_%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82.png",
 ["Fishino Clownino"] = "https://static.wikia.nocookie.net/stealabr/images/d/d6/Fishino_Clownino.png",
 ["Fragrama and Chocrama"] = "https://static.wikia.nocookie.net/stealabr/images/9/9a/Fragrama_and_Chocrama.png",
 
@@ -134,7 +135,8 @@ local BRAINROT_IMAGES = {
 ["Orcaledon"] = "https://static.wikia.nocookie.net/stealabr/images/a/a6/Orcaledon.png",
 
 -- Q
-["Quesadilla Vampiro"] = "https://static.wikia.nocookie.net/stealabr/images/0/0e/VampiroQuesa.png",
+["Quesadilla Vampiro"] = "https://static.wikia.nocookie.net/stealabr/images/0/0e/VampiroQuesa.png", 
+["Quesadilla Crocidila"] = "https://static.wikia.nocookie.net/stealabr/images/3/3f/QuesadillaCrocodilla.png",
 
 -- R
 ["Rang Ring Bus"] = "https://static.wikia.nocookie.net/stealabr/images/2/2b/RingRangBus2.png",
@@ -237,8 +239,10 @@ end
 --------------------------------------------------
 -- WEBHOOK
 --------------------------------------------------
-local lastHash30M = { value = nil }
-local lastHash100M = { value = nil }
+
+local notified30M = {}
+local notified100M = {}
+local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
     if #list == 0 then return end
@@ -249,9 +253,16 @@ local function send(list, webhook, pingRole, lastHashRef)
     end)
 
     local main = list[1]
-    local hash = main.name .. main.value
-    if lastHashRef.value == hash then return end
-    lastHashRef.value = hash
+    local hash =
+    normalizeName(main.name)
+    .. "|"
+    .. tostring(math.floor(main.value))
+    .. "|"
+    .. game.JobId
+
+    if not lastHashRef then lastHashRef = {} end
+if lastHashRef[hash] then return end
+lastHashRef[hash] = true
 
 --------------------------------------------------
     -- AGRUPAR OTHER BRAINROTS (x2, x3, x4...)
@@ -407,14 +418,14 @@ while true do
         scan(MIN_PRODUCTION_30M),
         WEBHOOK_30M,
         false,
-        lastHash30M
+        notified30M
     )
 
     send(
         scan(MIN_PRODUCTION_100M),
         WEBHOOK_100M,
         true,
-        lastHash100M
+        notified100M
     )
 
     task.wait(SCAN_DELAY)
