@@ -1,11 +1,11 @@
 ---------------- CONFIG ----------------
 -- WEBHOOKS
-local WEBHOOK_30M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
+local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
 local WEBHOOK_100M = "https://discord.com/api/webhooks/1466281358664929434/pLh23bjJAw7OSi6VeeYwY0uq09Es8zpGIqR4lI7JaLzWrOxKuVJtMShh4ly1LZuMgpgt"
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
 
 -- MINIMOS
-local MIN_PRODUCTION_30M = 33_500_000
+local MIN_PRODUCTION_50M =50_000_000
 local MIN_PRODUCTION_100M = 100_000_000
 
 -- 🔔 PINGS (TODO CONFIGURABLE)
