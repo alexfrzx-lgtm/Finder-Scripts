@@ -139,7 +139,7 @@ local BRAINROT_IMAGES = {
 
 -- Q
 ["Quesadilla Vampiro"] = "https://static.wikia.nocookie.net/stealabr/images/0/0e/VampiroQuesa.png", 
-["Quesadilla Crocidila"] = "https://static.wikia.nocookie.net/stealabr/images/3/3f/QuesadillaCrocodilla.png",
+["Quesadilla Crocodila"] = "https://static.wikia.nocookie.net/stealabr/images/3/3f/QuesadillaCrocodilla.png",
 
 -- R
 ["Rang Ring Bus"] = "https://static.wikia.nocookie.net/stealabr/images/2/2b/RingRangBus2.png",
