@@ -42,7 +42,7 @@ local BRAINROT_IMAGES = {
 ["Bacuru and Egguru"] = "https://static.wikia.nocookie.net/stealabr/images/b/b5/Bacuru_and_Egguru.png",
 ["Brunito Marsito"] = "https://static.wikia.nocookie.net/stealabr/images/6/60/Brunito_Marsito_byLuiko.png",
 ["Burrito Bandito"] = "https://static.wikia.nocookie.net/stealabr/images/e/e6/PoTaTo.png",
-["Burguro and Fryuro"] = "https://static.wikia.nocookie.net/stealabr/images/6/65/Burguro-And-Fryuro.png",
+["Burguro And Fryuro"] = "https://static.wikia.nocookie.net/stealabr/images/6/65/Burguro-And-Fryuro.png",
 
 -- C
 ["Capitano Moby"] = "https://static.wikia.nocookie.net/stealabr/images/e/ef/Moby.png",
