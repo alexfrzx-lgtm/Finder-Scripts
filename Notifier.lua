@@ -59,7 +59,7 @@ local BRAINROT_IMAGES = {
 
 -- D
 ["DonkeyTurbo Express"] = "https://static.wikia.nocookie.net/stealabr/images/9/9a/DonkeyturboExpress.png",
-["Dragon Canneloni"] = "https://static.wikia.nocookie.net/stealabr/images/3/31/Nah_uh.png",
+["Dragon Cannelloni"] = "https://static.wikia.nocookie.net/stealabr/images/3/31/Nah_uh.png",
 ["Dragon Gingerinni"] = "https://static.wikia.nocookie.net/stealabr/images/3/3a/DragonGingerini.png",
 
 -- E
