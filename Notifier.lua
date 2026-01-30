@@ -93,7 +93,7 @@ local BRAINROT_IMAGES = {
 -- L
 ["La Casa Boo"] = "https://static.wikia.nocookie.net/stealabr/images/d/de/Casa_Booo.png",
 ["La Extinct Grande"] = "https://static.wikia.nocookie.net/stealabr/images/c/cd/La_Extinct_Grande.png",
-["La Ginger Sekohla"] = "https://static.wikia.nocookie.net/stealabr/images/1/14/Esok_Ginger.png",
+["La Ginger Sekolah"] = "https://static.wikia.nocookie.net/stealabr/images/1/14/Esok_Ginger.png",
 ["La Grande Combinasion"] = "https://static.wikia.nocookie.net/stealabr/images/d/d8/Carti.png",
 ["La Jolly Grande"] = "https://static.wikia.nocookie.net/stealabr/images/5/5f/La_Chrismas_Grande.png",
 ["La Secret Combinasion"] = "https://static.wikia.nocookie.net/stealabr/images/f/f2/Lasecretcombinasion.png",
@@ -101,7 +101,7 @@ local BRAINROT_IMAGES = {
 ["La Supreme Combinasion"] = "https://static.wikia.nocookie.net/stealabr/images/5/52/SupremeCombinasion.png",
 ["La Taco Combinasion"] = "https://static.wikia.nocookie.net/stealabr/images/8/84/Latacocombi.png",
 ["Las Sis"] = "https://cdn.shopify.com/s/files/1/0837/8712/0919/files/Las_Sis_600x600.webp?v=1758288678",
-["Lavadorito Spionito"] = "https://static.wikia.nocookie.net/stealabr/images/f/ff/Lavadorito_Spinito.png",
+["Lavadorito Spinito"] = "https://static.wikia.nocookie.net/stealabr/images/f/ff/Lavadorito_Spinito.png",
 ["Los 25"] = "https://static.wikia.nocookie.net/stealabr/images/9/9b/Transparent_Los_25.png",
 ["Los 67"] = "https://static.wikia.nocookie.net/stealabr/images/d/db/Los-67.png",
 ["Los Bros"] = "https://static.wikia.nocookie.net/stealabr/images/5/53/BROOOOOOOO.png",
