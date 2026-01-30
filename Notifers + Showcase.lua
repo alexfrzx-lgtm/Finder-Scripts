@@ -240,7 +240,7 @@ end
 -- WEBHOOK
 --------------------------------------------------
 
-local notified30M = {}
+local notified50M = {}
 local notified100M = {}
 local notifiedShowcase = {}
 
@@ -415,10 +415,10 @@ end -- ✅ CIERRE CORRECTO DE function send
 --------------------------------------------------
 while true do
     send(
-        scan(MIN_PRODUCTION_30M),
-        WEBHOOK_30M,
+        scan(MIN_PRODUCTION_50M),
+        WEBHOOK_50M,
         false,
-        notified30M
+        notified50M
     )
 
     send(
