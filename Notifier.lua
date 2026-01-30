@@ -5,7 +5,7 @@ local WEBHOOK_100M = "https://discord.com/api/webhooks/1466281358664929434/pLh23
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
 
 -- MINIMOS
-local MIN_PRODUCTION_30M = 33_500_000
+local MIN_PRODUCTION_30M = 50_000_000
 local MIN_PRODUCTION_100M = 100_000_000
 
 -- 🔔 PINGS (TODO CONFIGURABLE)
@@ -243,7 +243,7 @@ end
 -- WEBHOOK
 --------------------------------------------------
 
-local notified30M = {}
+local notified50M = {}
 local notified100M = {}
 local notifiedShowcase = {}
 
@@ -418,10 +418,10 @@ end -- ✅ CIERRE CORRECTO DE function send
 --------------------------------------------------
 while true do
     send(
-        scan(MIN_PRODUCTION_30M),
-        WEBHOOK_30M,
+        scan(MIN_PRODUCTION_50M),
+        WEBHOOK_50M,
         false,
-        notified30M
+        notified50M
     )
 
     send(
