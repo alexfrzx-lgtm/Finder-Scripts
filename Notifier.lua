@@ -1,3 +1,8 @@
+if _G.__BRYALL_NOTIFIER_RUNNING then
+    return
+end
+_G.__BRYALL_NOTIFIER_RUNNING = true
+
 ---------------- CONFIG ----------------
 -- WEBHOOKS
 local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
