@@ -1,8 +1,3 @@
-if _G.__BRYALL_NOTIFIER_RUNNING then
-    return
-end
-_G.__BRYALL_NOTIFIER_RUNNING = true
-
 ---------------- CONFIG ----------------
 -- WEBHOOKS
 local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
@@ -250,14 +245,10 @@ end
 
 local notified50M = {}
 local notified100M = {}
-local notifiedShowcase = {} 
-local WEBHOOK_COOLDOWN = 120 -- segundos (2 minutos)
+local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
-    if #list == 0 then return end   
-
-    task.wait(math.random(1,6)) -- anti-duplicados entre bots
-
+    if #list == 0 then return end
 
     -- ordenar por el que más genera
     table.sort(list, function(a,b)
@@ -265,19 +256,16 @@ local function send(list, webhook, pingRole, lastHashRef)
     end)
 
     local main = list[1]
-    local key =
+    local hash =
     normalizeName(main.name)
+    .. "|"
+    .. tostring(math.floor(main.value))
     .. "|"
     .. game.JobId
 
-local now = os.time()
-
-if not lastHashRef then lastHashRef = {} end
-if lastHashRef[key] and (now - lastHashRef[key] < WEBHOOK_COOLDOWN) then
-    return
-end
-
-lastHashRef[key] = now
+    if not lastHashRef then lastHashRef = {} end
+if lastHashRef[hash] then return end
+lastHashRef[hash] = true
 
 --------------------------------------------------
     -- AGRUPAR OTHER BRAINROTS (x2, x3, x4...)
