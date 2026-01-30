@@ -245,7 +245,7 @@ end
 
 local notified50M = {}
 local notified100M = {}
-local notifiedShowcase = {}
+local notifiedShowcase = {} local WEBHOOK_COOLDOWN = 120 -- segundos (2 minutos)
 
 local function send(list, webhook, pingRole, lastHashRef)
     if #list == 0 then return end
@@ -256,16 +256,19 @@ local function send(list, webhook, pingRole, lastHashRef)
     end)
 
     local main = list[1]
-    local hash =
+    local key =
     normalizeName(main.name)
-    .. "|"
-    .. tostring(math.floor(main.value))
     .. "|"
     .. game.JobId
 
-    if not lastHashRef then lastHashRef = {} end
-if lastHashRef[hash] then return end
-lastHashRef[hash] = true
+local now = os.time()
+
+if not lastHashRef then lastHashRef = {} end
+if lastHashRef[key] and (now - lastHashRef[key] < WEBHOOK_COOLDOWN) then
+    return
+end
+
+lastHashRef[key] = now
 
 --------------------------------------------------
     -- AGRUPAR OTHER BRAINROTS (x2, x3, x4...)
