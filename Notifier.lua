@@ -245,7 +245,8 @@ end
 
 local notified50M = {}
 local notified100M = {}
-local notifiedShowcase = {} local WEBHOOK_COOLDOWN = 120 -- segundos (2 minutos)
+local notifiedShowcase = {} 
+local WEBHOOK_COOLDOWN = 120 -- segundos (2 minutos)
 
 local function send(list, webhook, pingRole, lastHashRef)
     if #list == 0 then return end
