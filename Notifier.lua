@@ -254,7 +254,10 @@ local notifiedShowcase = {}
 local WEBHOOK_COOLDOWN = 120 -- segundos (2 minutos)
 
 local function send(list, webhook, pingRole, lastHashRef)
-    if #list == 0 then return end
+    if #list == 0 then return end   
+
+    task.wait(math.random(1,6)) -- anti-duplicados entre bots
+
 
     -- ordenar por el que más genera
     table.sort(list, function(a,b)
