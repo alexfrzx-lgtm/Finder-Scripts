@@ -1,7 +1,7 @@
 task.wait(2)
 
 ---------------- CONFIG ----------------
-local HOP_DELAY = 180      -- 🔥 3 MINUTOS
+local HOP_DELAY = 360      -- 🔥 5 MINUTOS
 local RETRY_DELAY = 3
 local COUNT_STEP = 30      -- actualiza cada 30s
 --------------------------------------
