@@ -1,18 +1,3 @@
-
-local Players = game:GetService("Players")
-
-local function isLeaderBot()
-    local lowestUserId = math.huge
-
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr.UserId < lowestUserId then
-            lowestUserId = plr.UserId
-        end
-    end
-
-    return Players.LocalPlayer
-        and Players.LocalPlayer.UserId == lowestUserId
-end
 ---------------- CONFIG ----------------
 -- WEBHOOKS
 local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
@@ -262,13 +247,7 @@ local notified50M = {}
 local notified100M = {}
 local notifiedShowcase = {}
 
-local function send(list, webhook, pingRole, lastHashRef)    
-
--- 🔒 ANTI DUPLICADOS ENTRE BOTS
-    if not isLeaderBot() then
-        return
-    end
-
+local function send(list, webhook, pingRole, lastHashRef)
     if #list == 0 then return end
 
     -- ordenar por el que más genera
