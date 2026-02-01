@@ -13,7 +13,7 @@ local ROLE_ID = "1466283703083995361"
 local PING_ROLE_AT = 455_000_000      -- ping role en webhook 2
 local PING_HERE_AT = 550_000_000      -- ping @here en showcase
 
-local SCAN_DELAY = 0.5
+local SCAN_DELAY = 0.1
 
 --------------------------------------
 
