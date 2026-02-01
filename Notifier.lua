@@ -37,6 +37,7 @@ local BRAINROT_IMAGES = {
 
 -- A
 ["Arcadopus"] = "https://www.lolga.com/uploads/images/goods/steal-a-brainrot/all-server-arcadopus.png",
+["Ay Mi Gatito"] = "https://static.wikia.nocookie.net/stealabr/images/5/50/AyMiGatito.png",
 
 -- B
 ["Bacuru and Egguru"] = "https://static.wikia.nocookie.net/stealabr/images/b/b5/Bacuru_and_Egguru.png",
@@ -120,6 +121,7 @@ local BRAINROT_IMAGES = {
 ["Los Spooky Combinasionas"] = "https://static.wikia.nocookie.net/stealabr/images/8/8a/Lospookycombi.png",
 ["Los Tacoritas"] = "https://static.wikia.nocookie.net/stealabr/images/4/40/My_kids_will_also_rob_you.png",
 ["Los Puggies"] = "https://static.wikia.nocookie.net/stealabr/images/c/c8/LosPuggies2.png",
+["Los Mi Gatitos"] = "https://static.wikia.nocookie.net/stealabr/images/a/af/Los_ay_Gattitos.png",
 
 -- M
 ["Mariachi Corazoni"] = "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png",
@@ -137,6 +139,9 @@ local BRAINROT_IMAGES = {
 
 -- O
 ["Orcaledon"] = "https://static.wikia.nocookie.net/stealabr/images/a/a6/Orcaledon.png",
+
+-- P
+["Popcuru and Fizzuru"] = "https://static.wikia.nocookie.net/stealabr/images/a/a9/Popuru_and_Fizzuru.png",
 
 -- Q
 ["Quesadilla Vampiro"] = "https://static.wikia.nocookie.net/stealabr/images/0/0e/VampiroQuesa.png", 
