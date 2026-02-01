@@ -1,19 +1,30 @@
----------------- CONFIG ----------------
+local Players = game:GetService("Players")
+
+local function isLeaderBot()
+    local lowestUserId = math.huge
+
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr.UserId < lowestUserId then
+            lowestUserId = plr.UserId
+        end
+    end
+
+    return Players.LocalPlayer
+        and Players.LocalPlayer.UserId == lowestUserId
+end
+---------------- CONFIG --------------
 -- WEBHOOKS
 local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
-local WEBHOOK_100M = "https://discord.com/api/webhooks/1466281358664929434/pLh23bjJAw7OSi6VeeYwY0uq09Es8zpGIqR4lI7JaLzWrOxKuVJtMShh4ly1LZuMgpgt"
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
 
 -- MINIMOS
 local MIN_PRODUCTION_50M = 50_000_000
-local MIN_PRODUCTION_100M = 100_000_000
 
--- 🔔 PINGS (TODO CONFIGURABLE)
-local ROLE_ID = "1466283703083995361"
-local PING_ROLE_AT = 455_000_000      -- ping role en webhook 2
-local PING_HERE_AT = 550_000_000      -- ping @here en showcase
+-- 🔔 PINGS
+local PING_HERE_AT = 550_000_000
 
-local SCAN_DELAY = 0.1
+local SCAN_DELAY = 0.5
+
 
 --------------------------------------
 
@@ -206,14 +217,13 @@ local function parseProduction(text)
     if u == "T" then return n * 1e12 end
 end
 
-local function format(v)
-    if v >= 1e12 then
-        return string.format("$%.3fT/s", v/1e12):gsub("%.?0+T","T")
-    elseif v >= 1e9 then
-        return string.format("$%.3fB/s", v/1e9):gsub("%.?0+B","B")
-    else
-        return string.format("$%.3fM/s", v/1e6):gsub("%.?0+M","M")
+local function formatMoney(v)
+    local s = tostring(math.floor(v))
+    local formatted = s:reverse():gsub("(%d%d%d)", "%1,"):reverse()
+    if formatted:sub(1,1) == "," then
+        formatted = formatted:sub(2)
     end
+    return "$" .. formatted .. "/s"
 end
 
 --------------------------------------------------
@@ -250,7 +260,6 @@ end
 --------------------------------------------------
 
 local notified50M = {}
-local notified100M = {}
 local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
@@ -278,23 +287,23 @@ lastHashRef[hash] = true
 --------------------------------------------------
     local grouped = {}
 
-    for i = 2, #list do
-        local v = list[i]
-        local key = v.name -- 🔥 FIX: agrupar SOLO por nombre
+-- CONTAR brainrots por nombre
+for i = 1, #list do
+    local v = list[i]
+    local key = v.name
 
-        grouped[key] = grouped[key] or {
-            name = v.name,
-            value = v.value,
-            count = 0
-        }
-        grouped[key].count += 1
-    end
+    grouped[key] = grouped[key] or {
+        name = v.name,
+        value = v.value,
+        count = 0
+    }
+    grouped[key].count += 1
+end
 
-    local others = ""
-    local index = 1
-    local hasOthers = false
+local others = ""
+local hasOthers = false
 
-    -- ORDENAR OTHER BRAINROTS DE MAYOR A MENOR
+-- ordenar por valor (mayor a menor)
 local ordered = {}
 for _,v in pairs(grouped) do
     table.insert(ordered, v)
@@ -304,19 +313,13 @@ table.sort(ordered, function(a, b)
     return a.value > b.value
 end)
 
+-- construir texto FINAL (SIN LISTA)
 for _,v in ipairs(ordered) do
     hasOthers = true
 
-    local label = v.name
-    if v.count > 1 then
-        label = "x"..v.count.." "..label
-    end
-
     others = others
-        .. index .. ". " .. label .. "\n"
-        .. "— " .. format(v.value) .. "\n"
-
-    index += 1
+        .. v.count .. "x " .. v.name .. "\n"
+        .. "— " .. formatMoney(v.value) .. "\n"
 end
 
     --------------------------------------------------
@@ -330,20 +333,23 @@ end
         .. placeId ..
         "&gameInstanceId=" .. jobId
 
-    --------------------------------------------------
+--------------------------------------------------
 -- EMBED
 --------------------------------------------------
 local embed = {
-    color = 1317145,
-    footer = { text = "✨ Highlights | BryAll Notifier" },
+    title = "**" .. main.name .. "**",
+    color = 2829618,
+    description = "**— " .. formatMoney(main.value) .. "**\n\n",
+    footer = {
+        text = "BryAll Notifier "
+    },
     timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
 }
 
--- Título (mejor brainrot)
-embed.title = "💎 **" .. main.name .. "**"
 
 -- Producción
-embed.description = "**— " .. format(main.value) .. "**\n\n"
+
+embed.description = "**(" .. formatMoney(main.value) .. ")**\n\n"
 
 --------------------------------------------------
 -- SERVER ID
@@ -377,11 +383,7 @@ end
 -- ENVIAR WEBHOOK (CON O SIN PING)
 --------------------------------------------------
 local content = nil
-if webhook == WEBHOOK_100M and main.value >= PING_ROLE_AT then
-    content = "<@&" .. ROLE_ID .. ">"
-end
 
--- enviar a la webhook principal
 http_request({
     Url = webhook,
     Method = "POST",
@@ -392,14 +394,16 @@ http_request({
     })
 })
 
--- 🔥 SHOWCASE (COPIA DE LA 100M)
-if webhook == WEBHOOK_100M then
-    local showcaseEmbed = table.clone(embed)
+-- 🔥 SHOWCASE (COPIA DE LA 50M)
+if webhook == WEBHOOK_50M then
+    local showcaseEmbed = HttpService:JSONDecode(HttpService:JSONEncode(embed))
 
-    -- SOLO SERVER ID TROLL 😂 (sin join, sin jobid)
-    showcaseEmbed.description = showcaseEmbed.description
-        :gsub("%*%*Server ID%*%*.-\n\n", "**Server ID**\n😂\n\n")
-        :gsub("%*%*Join Server%*%*.-\n\n", "")
+    -- ❌ QUITAR COMPLETAMENTE SERVER ID Y JOIN SERVER
+    if showcaseEmbed.description then
+        showcaseEmbed.description = showcaseEmbed.description
+            :gsub("%*%*Server ID%*%*.-```.-```%s*", "")
+            :gsub("%*%*Join Server%*%*.-%b()%s*", "")
+    end
 
     local showcaseContent = nil
     if main.value >= PING_HERE_AT then
@@ -417,25 +421,22 @@ if webhook == WEBHOOK_100M then
     })
 end
 
-end -- ✅ CIERRE CORRECTO DE function send
+end -- cierre function send
+
 
 --------------------------------------------------
 -- LOOP
 --------------------------------------------------
 while true do
-    send(
-        scan(MIN_PRODUCTION_50M),
-        WEBHOOK_50M,
-        false,
-        notified50M
-    )
-
-    send(
-        scan(MIN_PRODUCTION_100M),
-        WEBHOOK_100M,
-        true,
-        notified100M
-    )
+    if isLeaderBot() then
+        local results = scan(MIN_PRODUCTION_50M)
+        send(
+            results,
+            WEBHOOK_50M,
+            false,
+            notified50M
+        )
+    end
 
     task.wait(SCAN_DELAY)
 end
