@@ -1,18 +1,4 @@
-local Players = game:GetService("Players")
-
-local function isLeaderBot()
-    local lowestUserId = math.huge
-
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr.UserId < lowestUserId then
-            lowestUserId = plr.UserId
-        end
-    end
-
-    return Players.LocalPlayer
-        and Players.LocalPlayer.UserId == lowestUserId
-end
----------------- CONFIG --------------
+---------------- CONFIG ----------------
 -- WEBHOOKS
 local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
@@ -260,6 +246,7 @@ end
 --------------------------------------------------
 
 local notified50M = {}
+local notified100M = {}
 local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
@@ -383,7 +370,11 @@ end
 -- ENVIAR WEBHOOK (CON O SIN PING)
 --------------------------------------------------
 local content = nil
+if webhook == WEBHOOK_100M and main.value >= PING_ROLE_AT then
+    content = "<@&" .. ROLE_ID .. ">"
+end
 
+-- enviar a la webhook principal
 http_request({
     Url = webhook,
     Method = "POST",
@@ -428,15 +419,12 @@ end -- cierre function send
 -- LOOP
 --------------------------------------------------
 while true do
-    if isLeaderBot() then
-        local results = scan(MIN_PRODUCTION_50M)
-        send(
-            results,
-            WEBHOOK_50M,
-            false,
-            notified50M
-        )
-    end
+    send(
+        scan(MIN_PRODUCTION_50M),
+        WEBHOOK_50M,
+        false,
+        notified50M
+    )
 
     task.wait(SCAN_DELAY)
 end
