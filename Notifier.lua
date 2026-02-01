@@ -23,7 +23,7 @@ local MIN_PRODUCTION_50M = 50_000_000
 -- 🔔 PINGS
 local PING_HERE_AT = 550_000_000
 
-local SCAN_DELAY = 0.5
+local SCAN_DELAY = 0.1
 
 
 --------------------------------------
