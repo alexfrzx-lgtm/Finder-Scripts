@@ -1,9 +1,10 @@
 task.wait(2)
 
 ---------------- CONFIG ----------------
-local HOP_DELAY = 300      -- 🔥 5 MINUTOS
-local RETRY_DELAY = 3
-local COUNT_STEP = 30      -- actualiza cada 30s
+local HOP_DELAY   = 300      -- 5 minutos
+local RETRY_DELAY = 6        -- mobile safe
+local COUNT_STEP  = 30
+local MAX_ATTEMPTS = 8
 --------------------------------------
 
 local Players = game:GetService("Players")
@@ -17,7 +18,7 @@ local PLACE_ID = game.PlaceId
 local CURRENT_JOB_ID = game.JobId
 
 --------------------------------------------------
--- 🛡️ ANTI AFK (INPUT)
+-- 🛡️ ANTI AFK (SAFE INPUT)
 --------------------------------------------------
 player.Idled:Connect(function()
 	VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
@@ -26,24 +27,11 @@ player.Idled:Connect(function()
 end)
 
 --------------------------------------------------
--- 🚶‍♂️ ANTI AFK (MOVE EVERY 60s)
---------------------------------------------------
-task.spawn(function()
-	while true do
-		task.wait(60)
-		local char = player.Character
-		if char and char:FindFirstChild("HumanoidRootPart") then
-			char.HumanoidRootPart.CFrame *= CFrame.new(0,0,-1)
-		end
-	end
-end)
-
---------------------------------------------------
 -- 🔊 SOUND
 --------------------------------------------------
 local alarm = Instance.new("Sound", player.PlayerGui)
 alarm.SoundId = "rbxassetid://5476307813"
-alarm.Volume = 1.2
+alarm.Volume = 1
 alarm.Looped = true
 
 local function startAlarm()
@@ -67,7 +55,6 @@ frame.BackgroundColor3 = Color3.fromRGB(18,18,18)
 frame.BorderSizePixel = 0
 Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
 
--- 🔘 GREY NEON GLOW
 local stroke = Instance.new("UIStroke", frame)
 stroke.Color = Color3.fromRGB(180,180,180)
 stroke.Thickness = 2
@@ -107,12 +94,12 @@ Instance.new("UICorner", barBg)
 
 local barFill = Instance.new("Frame", barBg)
 barFill.Size = UDim2.new(0,0,1,0)
-barFill.BackgroundColor3 = Color3.fromRGB(0,255,120) -- verde normal
+barFill.BackgroundColor3 = Color3.fromRGB(0,255,120)
 barFill.BorderSizePixel = 0
 Instance.new("UICorner", barFill)
 
 --------------------------------------------------
--- BAR BLINK (ONLY AT END)
+-- BAR BLINK
 --------------------------------------------------
 local blinkRunning = false
 local COLOR_GREEN = Color3.fromRGB(0,255,120)
@@ -137,30 +124,51 @@ end
 local function fadeText(text)
 	label.TextTransparency = 1
 	label.Text = text
-	TweenService:Create(label,TweenInfo.new(0.4),{TextTransparency=0}):Play()
+	TweenService:Create(label, TweenInfo.new(0.4), {TextTransparency = 0}):Play()
 end
 
 --------------------------------------------------
--- SERVER FETCH
+-- SERVER FETCH (MOBILE SAFE)
 --------------------------------------------------
 local tried = {}
 
 local function findServer()
-	local ok, data = pcall(function()
-		return HttpService:JSONDecode(
-			game:HttpGet("https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?limit=100")
-		)
+	local url = "https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?limit=50"
+	local ok, res = pcall(function()
+		return HttpService:GetAsync(url)
 	end)
+	if not ok then return nil end
 
-	if not ok or not data or not data.data then return nil end
+	local data = HttpService:JSONDecode(res)
+	if not data or not data.data then return nil end
 
-	for _,s in ipairs(data.data) do
-		if s.id ~= CURRENT_JOB_ID and not tried[s.id] and s.playing < s.maxPlayers then
+	for _, s in ipairs(data.data) do
+		if s.id ~= CURRENT_JOB_ID
+		and not tried[s.id]
+		and s.playing < (s.maxPlayers - 1) then
 			return s.id
 		end
 	end
-
 	return nil
+end
+
+--------------------------------------------------
+-- SAFE TELEPORT
+--------------------------------------------------
+local teleporting = false
+
+local function safeTeleport(jobId)
+	if teleporting then return end
+	teleporting = true
+
+	local ok = pcall(function()
+		TeleportService:TeleportToPlaceInstance(PLACE_ID, jobId, player)
+	end)
+
+	if not ok then
+		teleporting = false
+		task.wait(5)
+	end
 end
 
 --------------------------------------------------
@@ -172,7 +180,7 @@ local function searchAndHop()
 	startAlarm()
 	startBlink()
 
-	while true do
+	while attempts < MAX_ATTEMPTS do
 		attempts += 1
 		fadeText("Searching server <b>("..attempts..")</b>")
 
@@ -181,23 +189,21 @@ local function searchAndHop()
 			tried[id] = true
 			stopAlarm()
 			fadeText("Joining server ⚡️")
-			task.wait(0.8)
-			TeleportService:TeleportToPlaceInstance(PLACE_ID, id, player)
+			task.wait(1.5)
+			safeTeleport(id)
 			return
 		end
 
 		task.wait(RETRY_DELAY)
-
-		if attempts >= 15 then
-			fadeText("Forcing new server ⚡️")
-			TeleportService:Teleport(PLACE_ID, player)
-			return
-		end
 	end
+
+	fadeText("New server ⚡️")
+	task.wait(2)
+	TeleportService:Teleport(PLACE_ID, player)
 end
 
 --------------------------------------------------
--- BAR TIMER (5 MIN)
+-- BAR TIMER
 --------------------------------------------------
 TweenService:Create(
 	barFill,
