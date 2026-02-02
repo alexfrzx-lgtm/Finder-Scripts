@@ -408,15 +408,6 @@ if webhook == WEBHOOK_50M then
     })
 end
 
--- 📺 ENVIAR A LIVE FEED
-if _G.pushLiveFeed then
-	_G.pushLiveFeed(
-		main.name .. " | " .. math.floor(main.value / 1e6) .. "M | Join Server",
-		Color3.fromRGB(180,220,255),
-		game.JobId
-	)
-end
-
 end -- cierre function send
 
 
