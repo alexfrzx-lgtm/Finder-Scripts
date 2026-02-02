@@ -246,7 +246,6 @@ end
 --------------------------------------------------
 
 local notified50M = {}
-local notified100M = {}
 local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
@@ -370,9 +369,6 @@ end
 -- ENVIAR WEBHOOK (CON O SIN PING)
 --------------------------------------------------
 local content = nil
-if webhook == WEBHOOK_100M and main.value >= PING_ROLE_AT then
-    content = "<@&" .. ROLE_ID .. ">"
-end
 
 -- enviar a la webhook principal
 http_request({
@@ -410,6 +406,15 @@ if webhook == WEBHOOK_50M then
             embeds = { showcaseEmbed }
         })
     })
+end
+
+-- 📺 ENVIAR A LIVE FEED
+if _G.pushLiveFeed then
+	_G.pushLiveFeed(
+		main.name .. " | " .. math.floor(main.value / 1e6) .. "M | Join Server",
+		Color3.fromRGB(180,220,255),
+		game.JobId
+	)
 end
 
 end -- cierre function send
