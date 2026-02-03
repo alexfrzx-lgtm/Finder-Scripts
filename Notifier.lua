@@ -73,7 +73,7 @@ local BRAINROT_IMAGES = {
 -- G
 ["Garama and Madundung"] = "https://static.wikia.nocookie.net/stealabr/images/e/ee/Garamadundung.png",
 ["Ginger Gerat"] = "https://static.wikia.nocookie.net/stealabr/images/8/85/GingerGerat.png",
-["Goblino Uniciclino"] = "https://static.wikia.nocookie.net/stealabr/images/c/c5/Gobblino_Uniciclino.png",
+["Gobblino Uniciclino"] = "https://static.wikia.nocookie.net/stealabr/images/c/c5/Gobblino_Uniciclino.png",
 ["Guest 666"] = "https://static.wikia.nocookie.net/stealabr/images/9/99/Guest666t.png",
 
 -- H
