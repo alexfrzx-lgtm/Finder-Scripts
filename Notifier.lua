@@ -122,8 +122,8 @@ local BRAINROT_IMAGES = {
 ["Los Tacoritas"] = "https://static.wikia.nocookie.net/stealabr/images/4/40/My_kids_will_also_rob_you.png",
 ["Los Puggies"] = "https://static.wikia.nocookie.net/stealabr/images/c/c8/LosPuggies2.png",
 ["Los Mi Gatitos"] = "https://static.wikia.nocookie.net/stealabr/images/a/af/Los_ay_Gattitos.png",
-["Lovin Rose"] = https://static.wikia.nocookie.net/stealabr/images/a/ab/LovinRose.png",
-["Love Love Bear"] = https://static.wikia.nocookie.net/stealabr/images/b/bf/Love_Love_Bear.png",
+["Lovin Rose"] = "https://static.wikia.nocookie.net/stealabr/images/a/ab/LovinRose.png",
+["Love Love Bear"] = "https://static.wikia.nocookie.net/stealabr/images/b/bf/Love_Love_Bear.png",
 
 -- M
 ["Mariachi Corazoni"] = "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png",
