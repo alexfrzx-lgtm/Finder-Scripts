@@ -54,6 +54,9 @@ local BRAINROT_IMAGES = {
 ["Chimnino"] = "https://static.wikia.nocookie.net/stealabr/images/c/c5/Chimnino.png",
 ["Chipso and Queso"] = "https://static.wikia.nocookie.net/stealabr/images/f/f8/Chipsoqueso.png",
 ["Cooki and Milki"] = "https://static.wikia.nocookie.net/stealabr/images/9/9b/Cooki_and_milki.png",
+["Cupid Cupid Sahur"] = "https://static.wikia.nocookie.net/stealabr/images/8/89/Cupid_Cupid_Sahur.png",
+["Cupid Hotspot"] = "https://static.wikia.nocookie.net/stealabr/images/1/1f/Pot_Cupid.png",
+["Chicleteira Cupideira"] = "https://static.wikia.nocookie.net/stealabr/images/6/6f/Chicleteira_Cupideira.png",
 
 -- D
 ["DonkeyTurbo Express"] = "https://static.wikia.nocookie.net/stealabr/images/9/9a/DonkeyturboExpress.png",
@@ -119,6 +122,8 @@ local BRAINROT_IMAGES = {
 ["Los Tacoritas"] = "https://static.wikia.nocookie.net/stealabr/images/4/40/My_kids_will_also_rob_you.png",
 ["Los Puggies"] = "https://static.wikia.nocookie.net/stealabr/images/c/c8/LosPuggies2.png",
 ["Los Mi Gatitos"] = "https://static.wikia.nocookie.net/stealabr/images/a/af/Los_ay_Gattitos.png",
+["Lovin Rose"] = https://static.wikia.nocookie.net/stealabr/images/a/ab/LovinRose.png",
+["Love Love Bear"] = https://static.wikia.nocookie.net/stealabr/images/b/bf/Love_Love_Bear.png",
 
 -- M
 ["Mariachi Corazoni"] = "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png",
@@ -132,6 +137,7 @@ local BRAINROT_IMAGES = {
 ["Noo my Candy"] = "https://static.wikia.nocookie.net/stealabr/images/1/12/Noo_my_candy_transparent.png",
 ["Noo my Present"] = "https://static.wikia.nocookie.net/stealabr/images/3/35/Noo_my_Present.png",
 ["Naughty Naughty"] = "https://static.wikia.nocookie.net/stealabr/images/1/13/Sought_the_naught.png",
+["Noo my Heart"] = "https://static.wikia.nocookie.net/stealabr/images/7/75/NooMyLoveheart.png",
 
 
 -- O
@@ -147,6 +153,8 @@ local BRAINROT_IMAGES = {
 -- R
 ["Rang Ring Bus"] = "https://static.wikia.nocookie.net/stealabr/images/2/2b/RingRangBus2.png",
 ["Reinito Sleighito"] = "https://static.wikia.nocookie.net/stealabr/images/2/27/Reinito.png",
+["Rosetti Tualetti"] = https://static.wikia.nocookie.net/stealabr/images/f/f8/Rossetti_Tualetti.png",
+["Rosey and Teddy"] = https://static.wikia.nocookie.net/stealabr/images/9/9b/Rosey_and_Teddy.png",
 
 -- S
 ["Skibidi Toilet"] = "https://static.wikia.nocookie.net/stealabr/images/3/34/Skibidi_toilet.png",
