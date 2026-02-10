@@ -153,8 +153,8 @@ local BRAINROT_IMAGES = {
 -- R
 ["Rang Ring Bus"] = "https://static.wikia.nocookie.net/stealabr/images/2/2b/RingRangBus2.png",
 ["Reinito Sleighito"] = "https://static.wikia.nocookie.net/stealabr/images/2/27/Reinito.png",
-["Rosetti Tualetti"] = https://static.wikia.nocookie.net/stealabr/images/f/f8/Rossetti_Tualetti.png",
-["Rosey and Teddy"] = https://static.wikia.nocookie.net/stealabr/images/9/9b/Rosey_and_Teddy.png",
+["Rosetti Tualetti"] = "https://static.wikia.nocookie.net/stealabr/images/f/f8/Rossetti_Tualetti.png",
+["Rosey and Teddy"] = "https://static.wikia.nocookie.net/stealabr/images/9/9b/Rosey_and_Teddy.png",
 
 -- S
 ["Skibidi Toilet"] = "https://static.wikia.nocookie.net/stealabr/images/3/34/Skibidi_toilet.png",
