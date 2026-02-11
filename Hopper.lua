@@ -1,219 +1,173 @@
-task.wait(2)
+--// CONFIG
+local blockedPlayers = {
+["NoahFri3ndlyultra241"]=true,
+["Ethan_Vortex70"]=true,
+["FoxRainbowbubble"]=true,
+["Ch0c0t0astr0ck3t"]=true,
+["moon_TURBO9816"]=true,
+["EllaFriendly2893"]=true,
+["Lilypurple6709"]=true,
+["AlexFrost150"]=true,
+["Chl0e_R0CKET4167"]=true,
+["greensnow7865"]=true,
+["Jumb0Pink82"]=true,
+["Sammoonzippy"]=true,
+["rock3t_Sports2814"]=true,
+["EthanFriendly1587"]=true,
+["Olivermicro7790"]=true,
+["M3gashadow1174"]=true,
+["Windsilverfox3966"]=true,
+["astr0Hyper41"]=true,
+["SophieWaverobotic"]=true,
+["Megapeppermint80"]=true,
+["SunnySportslucky5187"]=true,
+["Storm_ultra2557"]=true,
+["tiny_TOAST4438"]=true,
+["Chloe_Pepper34"]=true,
+["EthanDogcool4882"]=true,
+["DogultraPink"]=true,
+["Al3xGr33nfuzzy"]=true,
+["Sophiebubble1448"]=true,
+["Biglucky7267"]=true,
+["m00n_Otter70"]=true,
+["robot_Banana3244"]=true,
+["redspeedy7188"]=true,
+["JackNinjaunicorn6590"]=true,
+["BearGalaxy6118"]=true,
+["pepperAstr08801"]=true,
+["BenMarble91"]=true,
+["Miafrostcandy"]=true,
+["goldflamered2913"]=true,
+["Miamegaf0rest4370"]=true,
+["mega_Green11"]=true,
+["bunnyWindStar707613"]=true,
+["jumb0candysunny"]=true,
+["fox_rain186"]=true,
+["EthanChoco7600"]=true,
+["Mega_ocean9408"]=true,
+["hyp3rcom3t2129"]=true,
+["Sophieastro2116"]=true,
+["happykoalaChoco"]=true,
+["ninja0tter476596"]=true,
+["pixelFrost215613"]=true,
+["LilySnowywolf"]=true,
+["spark_micro1746"]=true,
+["StormWavesuper"]=true,
+["SophieCandy4784"]=true,
+["SammegaPixel"]=true,
+["Wolf_las3r1891"]=true,
+["Alexstarbird47"]=true,
+["cloudsunny2274"]=true,
+}
 
----------------- CONFIG ----------------
-local HOP_DELAY   = 90     -- 5 minutos
-local RETRY_DELAY = 6        -- mobile safe
-local COUNT_STEP  = 30
-local MAX_ATTEMPTS = 10
---------------------------------------
-
+--// SERVICES
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
-local TweenService = game:GetService("TweenService")
-local VirtualUser = game:GetService("VirtualUser")
 
 local player = Players.LocalPlayer
-local PLACE_ID = game.PlaceId
-local CURRENT_JOB_ID = game.JobId
+local placeId = game.PlaceId
+local currentJobId = game.JobId
 
---------------------------------------------------
--- 🛡️ ANTI AFK (SAFE INPUT)
---------------------------------------------------
-player.Idled:Connect(function()
-	VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-	task.wait(1)
-	VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-end)
-
---------------------------------------------------
--- 🔊 SOUND
---------------------------------------------------
-local alarm = Instance.new("Sound", player.PlayerGui)
-alarm.SoundId = "rbxassetid://5476307813"
-alarm.Volume = 1
-alarm.Looped = true
-
-local function startAlarm()
-	if not alarm.IsPlaying then alarm:Play() end
-end
-
-local function stopAlarm()
-	if alarm.IsPlaying then alarm:Stop() end
-end
-
---------------------------------------------------
--- 🖥️ UI
---------------------------------------------------
-local gui = Instance.new("ScreenGui", player.PlayerGui)
-gui.ResetOnSpawn = false
-
-local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0,350,0,60)
-frame.Position = UDim2.new(0.5,-175,0.08,0)
-frame.BackgroundColor3 = Color3.fromRGB(18,18,18)
-frame.BorderSizePixel = 0
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
-
-local stroke = Instance.new("UIStroke", frame)
-stroke.Color = Color3.fromRGB(180,180,180)
-stroke.Thickness = 2
-stroke.Transparency = 0.2
-
-task.spawn(function()
-	while true do
-		TweenService:Create(stroke, TweenInfo.new(0.8), {Transparency = 0}):Play()
-		task.wait(0.8)
-		TweenService:Create(stroke, TweenInfo.new(0.8), {Transparency = 0.4}):Play()
-		task.wait(0.8)
-	end
-end)
-
---------------------------------------------------
--- TEXT
---------------------------------------------------
-local label = Instance.new("TextLabel", frame)
-label.Size = UDim2.new(1,-16,0,28)
-label.Position = UDim2.new(0,8,0,4)
-label.BackgroundTransparency = 1
-label.TextColor3 = Color3.fromRGB(240,240,240)
-label.Font = Enum.Font.SourceSansBold
-label.TextSize = 18
-label.RichText = true
-label.Text = "Server Hopping ⚡️"
-
---------------------------------------------------
--- BAR
---------------------------------------------------
-local barBg = Instance.new("Frame", frame)
-barBg.Size = UDim2.new(1,-16,0,8)
-barBg.Position = UDim2.new(0,8,0,40)
-barBg.BackgroundColor3 = Color3.fromRGB(40,40,40)
-barBg.BorderSizePixel = 0
-Instance.new("UICorner", barBg)
-
-local barFill = Instance.new("Frame", barBg)
-barFill.Size = UDim2.new(0,0,1,0)
-barFill.BackgroundColor3 = Color3.fromRGB(0,255,120)
-barFill.BorderSizePixel = 0
-Instance.new("UICorner", barFill)
-
---------------------------------------------------
--- BAR BLINK
---------------------------------------------------
-local blinkRunning = false
-local COLOR_GREEN = Color3.fromRGB(0,255,120)
-local COLOR_RED   = Color3.fromRGB(255,60,60)
-
-local function startBlink()
-	if blinkRunning then return end
-	blinkRunning = true
-	task.spawn(function()
-		while blinkRunning do
-			TweenService:Create(barFill, TweenInfo.new(0.6), {BackgroundColor3 = COLOR_RED}):Play()
-			task.wait(0.6)
-			TweenService:Create(barFill, TweenInfo.new(0.6), {BackgroundColor3 = COLOR_GREEN}):Play()
-			task.wait(0.6)
-		end
-	end)
-end
-
---------------------------------------------------
--- FADE TEXT
---------------------------------------------------
-local function fadeText(text)
-	label.TextTransparency = 1
-	label.Text = text
-	TweenService:Create(label, TweenInfo.new(0.4), {TextTransparency = 0}):Play()
-end
-
---------------------------------------------------
--- SERVER FETCH (MOBILE SAFE)
---------------------------------------------------
-local tried = {}
-
-local function findServer()
-	local url = "https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?limit=50"
-	local ok, res = pcall(function()
-		return HttpService:GetAsync(url)
-	end)
-	if not ok then return nil end
-
-	local data = HttpService:JSONDecode(res)
-	if not data or not data.data then return nil end
-
-	for _, s in ipairs(data.data) do
-		if s.id ~= CURRENT_JOB_ID
-		and not tried[s.id]
-		and s.playing < (s.maxPlayers - 1) then
-			return s.id
-		end
-	end
-	return nil
-end
-
---------------------------------------------------
--- SAFE TELEPORT
---------------------------------------------------
-local teleporting = false
-
-local function safeTeleport(jobId)
-	if teleporting then return end
-	teleporting = true
-
-	local ok = pcall(function()
-		TeleportService:TeleportToPlaceInstance(PLACE_ID, jobId, player)
-	end)
-
-	if not ok then
-		teleporting = false
-		task.wait(5)
-	end
-end
-
---------------------------------------------------
--- SEARCH & HOP
---------------------------------------------------
+local triedServers = {}
 local attempts = 0
 
-local function searchAndHop()
-	startAlarm()
-	startBlink()
+--// UI
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+local background = Instance.new("Frame", screenGui)
+background.Size = UDim2.new(1,0,0,25)
+background.BackgroundColor3 = Color3.fromRGB(25,25,25)
+background.BorderSizePixel = 0
 
-	while attempts < MAX_ATTEMPTS do
-		attempts += 1
-		fadeText("Searching server <b>("..attempts..")</b>")
+local bar = Instance.new("Frame", background)
+bar.Size = UDim2.new(1,0,1,0)
+bar.BackgroundColor3 = Color3.fromRGB(0,200,255)
+bar.BorderSizePixel = 0
 
-		local id = findServer()
-		if id then
-			tried[id] = true
-			stopAlarm()
-			fadeText("Joining server ⚡️")
-			task.wait(1.5)
-			safeTeleport(id)
-			return
-		end
+local text = Instance.new("TextLabel", background)
+text.Size = UDim2.new(1,0,1,0)
+text.BackgroundTransparency = 1
+text.TextColor3 = Color3.new(1,1,1)
+text.TextScaled = true
+text.Font = Enum.Font.SourceSansBold
 
-		task.wait(RETRY_DELAY)
-	end
-
-	fadeText("New server ⚡️")
-	task.wait(2)
-	TeleportService:Teleport(PLACE_ID, player)
+--// FUNCIONES
+local function hasBlockedPlayer()
+    for _, plr in pairs(Players:GetPlayers()) do
+        if blockedPlayers[plr.Name] then
+            return plr.Name
+        end
+    end
+    return nil
 end
 
---------------------------------------------------
--- BAR TIMER
---------------------------------------------------
-TweenService:Create(
-	barFill,
-	TweenInfo.new(HOP_DELAY, Enum.EasingStyle.Linear),
-	{Size = UDim2.new(1,0,1,0)}
-):Play()
-
-for t = HOP_DELAY, 0, -COUNT_STEP do
-	fadeText("Server Hopping ⚡️ <b>("..math.floor(t/60).."m "..(t%60).."s)</b>")
-	task.wait(COUNT_STEP)
+local function findServer()
+    local cursor = ""
+    while true do
+        local url = "https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
+        local success, result = pcall(function()
+            return HttpService:JSONDecode(game:HttpGet(url))
+        end)
+        if success and result and result.data then
+            for _, server in pairs(result.data) do
+                if server.playing < server.maxPlayers
+                and server.id ~= currentJobId
+                and not triedServers[server.id] then
+                    triedServers[server.id] = true
+                    return server.id
+                end
+            end
+            if result.nextPageCursor then
+                cursor = result.nextPageCursor
+            else
+                break
+            end
+        else
+            break
+        end
+    end
+    return nil
 end
 
-searchAndHop()
+local function forceHop()
+    local serverId
+    repeat
+        attempts += 1
+        text.Text = "Forzando hop... (Intentos: "..attempts..")"
+        serverId = findServer()
+        task.wait(1)
+    until serverId
+    TeleportService:TeleportToPlaceInstance(placeId, serverId, player)
+    triedServers = {}
+end
+
+--// DETECTAR BLOQUEADOS EN TIEMPO REAL
+Players.PlayerAdded:Connect(function(plr)
+    if blockedPlayers[plr.Name] then
+        text.Text = "Detectado "..plr.Name.." ! Hop inmediato..."
+        forceHop()
+    end
+end)
+
+--// LOOP ULTRA-TURBO: chequea bloqueados existentes y hace hop
+task.spawn(function()
+    while true do
+        local blocked = hasBlockedPlayer()
+        if blocked then
+            text.Text = "Detectado "..blocked.." ! Hop inmediato..."
+            forceHop()
+        end
+        task.wait(0.5) -- chequeo cada medio segundo
+    end
+end)
+
+--// LOOP NORMAL (opcional barra de hop)
+local HOP_TIME = 60
+while true do
+    for i = HOP_TIME,0,-1 do
+        bar.Size = UDim2.new(i/HOP_TIME,0,1,0)
+        text.Text = "Hop en: "..i.."s (Intentos: "..attempts..")"
+        task.wait(1)
+    end
+    forceHop()
+end
