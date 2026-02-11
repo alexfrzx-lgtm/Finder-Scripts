@@ -419,16 +419,31 @@ end
 end -- cierre function send
 
 
---------------------------------------------------
--- LOOP
---------------------------------------------------
-while true do
-    send(
-        scan(MIN_PRODUCTION_50M),
-        WEBHOOK_50M,
-        false,
-        notified50M
-    )
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
 
-    task.wait(SCAN_DELAY)
-end
+-- Crear ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "OnlineGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+-- Crear TextLabel centrado
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(0, 200, 0, 50)
+label.Position = UDim2.new(0.5, -100, 0.5, -25)
+label.BackgroundTransparency = 1
+label.Text = "Online"
+label.TextColor3 = Color3.fromRGB(0, 255, 0)
+label.TextScaled = true
+label.Font = Enum.Font.SourceSansBold
+label.Parent = screenGui
+
+-- Ahora ejecutamos el loop en paralelo para que la GUI no se bloquee
+
+task.spawn(function()
+    while true do
+        send(scan(MIN_PRODUCTION_50M), WEBHOOK_50M, false, notified50M)
+        task.wait(SCAN_DELAY)
+    end
+end)
