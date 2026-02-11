@@ -1,7 +1,7 @@
 task.wait(2)
 
 ---------------- CONFIG ----------------
-local HOP_DELAY   = 15     -- 5 minutos
+local HOP_DELAY   = 90     -- 5 minutos
 local RETRY_DELAY = 6        -- mobile safe
 local COUNT_STEP  = 30
 local MAX_ATTEMPTS = 8
