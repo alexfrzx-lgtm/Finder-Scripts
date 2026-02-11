@@ -4,7 +4,7 @@ task.wait(2)
 local HOP_DELAY   = 90     -- 5 minutos
 local RETRY_DELAY = 6        -- mobile safe
 local COUNT_STEP  = 30
-local MAX_ATTEMPTS = 8
+local MAX_ATTEMPTS = 10
 --------------------------------------
 
 local Players = game:GetService("Players")
