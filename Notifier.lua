@@ -34,7 +34,7 @@ local BRAINROT_IMAGES = {
 
 -- A
 ["Arcadopus"] = "https://www.lolga.com/uploads/images/goods/steal-a-brainrot/all-server-arcadopus.png",
-["Ay Mi Gatito"] = "https://static.wikia.nocookie.net/stealabr/images/5/50/AyMiGatito.png",
+["Mi Gatito"] = "https://static.wikia.nocookie.net/stealabr/images/5/50/AyMiGatito.png",
 
 -- B
 ["Bacuru and Egguru"] = "https://static.wikia.nocookie.net/stealabr/images/b/b5/Bacuru_and_Egguru.png",
