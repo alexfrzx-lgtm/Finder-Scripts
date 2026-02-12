@@ -4,7 +4,7 @@ local WEBHOOK_1M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQ
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
 
 -- MINIMOS
-local MIN_PRODUCTION_50M = 01_000_000
+local MIN_PRODUCTION_50M = 1_000_000
 
 -- 🔔 PINGS
 local PING_HERE_AT = 550_000_000
