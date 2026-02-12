@@ -1,10 +1,10 @@
 ---------------- CONFIG ----------------
 -- WEBHOOKS
-local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
+local WEBHOOK_1M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
 
 -- MINIMOS
-local MIN_PRODUCTION_50M = 50_000_000
+local MIN_PRODUCTION_50M = 01_000_000
 
 -- 🔔 PINGS
 local PING_HERE_AT = 550_000_000
@@ -253,7 +253,7 @@ end
 -- WEBHOOK
 --------------------------------------------------
 
-local notified50M = {}
+local notified1M = {}
 local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
@@ -389,8 +389,8 @@ http_request({
     })
 })
 
--- 🔥 SHOWCASE (COPIA DE LA 50M)
-if webhook == WEBHOOK_50M then
+-- 🔥 SHOWCASE (COPIA DE LA 1M)
+if webhook == WEBHOOK_1M then
     local showcaseEmbed = HttpService:JSONDecode(HttpService:JSONEncode(embed))
 
     -- ❌ QUITAR COMPLETAMENTE SERVER ID Y JOIN SERVER
