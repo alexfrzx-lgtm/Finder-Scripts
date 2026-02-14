@@ -1,10 +1,10 @@
 ---------------- CONFIG ----------------
 -- WEBHOOKS
-local WEBHOOK_1M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
+local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
 local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
 
 -- MINIMOS
-local MIN_PRODUCTION_1M = 1_000_000
+local MIN_PRODUCTION_50M = 50_000_000
 
 -- 🔔 PINGS
 local PING_HERE_AT = 550_000_000
@@ -124,7 +124,6 @@ local BRAINROT_IMAGES = {
 ["Los Mi Gatitos"] = "https://static.wikia.nocookie.net/stealabr/images/a/af/Los_ay_Gattitos.png",
 ["Lovin Rose"] = "https://static.wikia.nocookie.net/stealabr/images/a/ab/LovinRose.png",
 ["Love Love Bear"] = "https://static.wikia.nocookie.net/stealabr/images/b/bf/Love_Love_Bear.png",
-["La Romantic Grande"] = "https://static.wikia.nocookie.net/stealabr/images/d/d2/LaRomanricGrande_LeakBySammy.png",
 
 -- M
 ["Mariachi Corazoni"] = "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png",
@@ -254,7 +253,7 @@ end
 -- WEBHOOK
 --------------------------------------------------
 
-local notified1M = {}
+local notified50M = {}
 local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
@@ -390,8 +389,8 @@ http_request({
     })
 })
 
--- 🔥 SHOWCASE (COPIA DE LA 1M)
-if webhook == WEBHOOK_1M then
+-- 🔥 SHOWCASE (COPIA DE LA 50M)
+if webhook == WEBHOOK_50M then
     local showcaseEmbed = HttpService:JSONDecode(HttpService:JSONEncode(embed))
 
     -- ❌ QUITAR COMPLETAMENTE SERVER ID Y JOIN SERVER
@@ -444,7 +443,7 @@ label.Parent = screenGui
 
 task.spawn(function()
     while true do
-        send(scan(MIN_PRODUCTION_1M), WEBHOOK_1M, false, notified1M)
+        send(scan(MIN_PRODUCTION_50M), WEBHOOK_50M, false, notified50M)
         task.wait(SCAN_DELAY)
     end
 end)
