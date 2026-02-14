@@ -145,9 +145,9 @@ end
 
 -- DETECTAR Players.PlayerAdded:Connect(function(plr) if blockedPlayers[plr.Name] then text.Text = "Detectado "..plr.Name.." ! Hop inmediato..." forceHop() end end)
 
--- LOOP NORMAL (HOP CADA 10s)
+-- LOOP NORMAL (HOP CADA 7s)
 
-local HOP_TIME = 10
+local HOP_TIME = 7
 
 task.spawn(function()
     while true do
@@ -162,7 +162,7 @@ end)
 
 -- WEBHOOKS
 local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
-local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
+local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1472370425123049571/OAlyVoxMrhp4yOP1loAezHF-zkKDWPLDAA29Ko9M2DT7wGHJSTyXj8bImw6vInl4VhoC"
 
 -- MINIMOS
 local MIN_PRODUCTION_50M = 50_000_000
