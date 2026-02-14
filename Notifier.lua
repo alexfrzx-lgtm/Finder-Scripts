@@ -124,6 +124,7 @@ local BRAINROT_IMAGES = {
 ["Los Mi Gatitos"] = "https://static.wikia.nocookie.net/stealabr/images/a/af/Los_ay_Gattitos.png",
 ["Lovin Rose"] = "https://static.wikia.nocookie.net/stealabr/images/a/ab/LovinRose.png",
 ["Love Love Bear"] = "https://static.wikia.nocookie.net/stealabr/images/b/bf/Love_Love_Bear.png",
+["La Romantic Grande"] = "https://static.wikia.nocookie.net/stealabr/images/d/d2/LaRomanricGrande_LeakBySammy.png",
 
 -- M
 ["Mariachi Corazoni"] = "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png",
