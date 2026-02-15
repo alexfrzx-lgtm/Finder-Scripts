@@ -168,9 +168,9 @@ task.spawn(function()
     end
 end)
 
--- LOOP NORMAL (HOP CADA 25)
+-- LOOP NORMAL (HOP CADA 60)
 
-local HOP_TIME = 25
+local HOP_TIME = 60
 
 task.spawn(function()
     while true do
