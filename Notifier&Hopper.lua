@@ -334,6 +334,114 @@ local BRAINROT_IMAGES = {
 }
 -- local BRAINROT_IMAGES = { ... }
 
+-- Prioridad lista
+local PRIORITY = {
+["Strawberry Elephant"] = 1,
+["Meowl"] = 2,
+["Skibidi Toilet"] = 3,
+["Headless Horseman"] = 4,
+["La Supreme Combinasion"] = 5,
+["Dragon Gingerini"] = 6,
+["Dragon Cannelloni"] = 7,
+["Hydra Dragon Cannelloni"] = 8,
+["Cerberus"] = 9,
+["Ketupat Bros"] = 10,
+["Burguro And Fryuro"] = 11,
+["Rosey and Teddy"] = 12,
+["Popcuru and Fizzuru"] = 13,
+["Capitano Moby"] = 14,
+["Cooki and Milki"] = 15,
+["Reinito Sleighito"] = 16,
+["Love Love Bear"] = 17,
+["Ginger Gerat"] = 18,
+["La Casa Boo"] = 19,
+["Fragrama and Chocrama"] = 20,
+["Spooky and Pumpky"] = 21,
+["La Secret Combinasion"] = 22,
+["Los Spaghettis"] = 23,
+["La Ginger Sekolah"] = 24,
+["Festive 67"] = 25,
+["Garama and Madundung"] = 26,
+["Jolly jolly Sahur"] = 27,
+["Lavadorito Spinito"] = 28,
+["Ketchuru and Musturu"] = 29,
+["Rosetti Tualetti"] = 30,
+["Orcaledon"] = 31,
+["Spaghetti Tualetti"] = 32,
+["Tictac Sahur"] = 33,
+["Ketupat Kepat"] = 34,
+["Tang Tang Keletang"] = 35,
+["Lovin Rose"] = 36,
+["La Taco Combinasion"] = 37,
+["Swaggy Bros"] = 38,
+["Los Tacoritas"] = 39,
+["La Romantic Grande"] = 40, -- CORREGIDO
+["Los Primos"] = 41,
+["W or L"] = 42,
+["Tralaledon"] = 43,
+["Eviledon"] = 44,
+["Los Puggies"] = 45,
+["Gobblino Uniciclino"] = 46,
+["La Jolly Grande"] = 47,
+["Esok Sekolah"] = 48,
+["Chillin chili"] = 49,
+["Chipso and Queso"] = 50,
+["Money Money Reindeer"] = 51,
+["Los Bros"] = 52,
+["La Spooky Grande"] = 53,
+["Tuff Toucan"] = 54,
+["Bacuru and Egguru"] = 55,
+["Mieteteira Bicicleteira"] = 56,
+["La Extinct Grande"] = 57,
+["Celularcini Viciosini"] = 58,
+["Money Money Puggy"] = 59,
+["Los 67"] = 60,
+["Los Candies"] = 61,
+["Los Spooky Combinasionas"] = 62,
+["Los Jolly Combinasionas"] = 63,
+["Los Mobilis"] = 64,
+["Los Hotspotsitos"] = 65,
+["Las Sis"] = 66,
+["Los Planitos"] = 67,
+["Chicleteira Cupideira"] = 68,
+["Fishino Clownino"] = 69,
+["Tacorita Bicicleta"] = 70,
+["Spinny Hammy"] = 71,
+["Nuclearo Dinossauro"] = 72,
+["Los combinasionas"] = 73,
+["Chicleteira Noelteira"] = 74,
+["Chimnino"] = 75,
+["Noo my Heart"] = 76,
+["Swag Soda"] = 77,
+["Mariachi Corazoni"] = 78,
+["La Grande Combinasion"] = 79,
+["Los 25"] = 80,
+["Los Burritos"] = 81,
+["67"] = 82,
+["DonkeyTurbo Express"] = 83,
+["Los Chicleteiras"] = 84,
+["Guest 666"] = 85,
+["Los Mi Gatitos"] = 86,
+["Rang Ring Bus"] = 87,
+["Noo my Present"] = 89,
+["Los nooo My Hotspotsitos"] = 90,
+["Noo my Candy"] = 91,
+["Arcadopus"] = 92,
+["Los Quesadillas"] = 93,
+["Burrito Bandito"] = 94,
+["Chill Puppy"] = 95,
+["Chicleteirina Bicicleteirina"] = 96,
+["Chicleteira Bicicleteira"] = 97,
+["Brunito Marsito"] = 98,
+["Cupid Hotspot"] = 99,
+["Quesadilla Vampiro"] = 100,
+["Ho Ho Ho Sahur"] = 101,
+["Mi Gatito"] = 102,
+["Cupid Cupid Sahur"] = 103,
+["Quesadilla Crocodila"] = 104,
+["Naughty Naughty"] = 105,
+}
+
 -- NORMALIZAR NOMBRES (ANTI BUGS)
 
 local function normalizeName(name)
@@ -409,12 +517,19 @@ local notifiedShowcase = {}
 local function send(list, webhook, pingRole, lastHashRef)
     if #list == 0 then return end
 
-    -- ordenar por el que más genera
-    table.sort(list, function(a,b)
-        return a.value > b.value
-    end)
+    -- ORDENAR POR PRIORITY
+table.sort(list, function(a,b)
+    local pa = PRIORITY[a.name] or math.huge
+    local pb = PRIORITY[b.name] or math.huge
+    if pa == pb then
+        return a.value > b.value -- si tienen la misma prioridad, elegir el que más genera
+    else
+        return pa < pb -- prioridad más alta (número más bajo) primero
+    end
+end)
 
-    local main = list[1]
+-- ahora main será el que tiene la PRIORITY más alta
+local main = list[1]
     local hash =
     normalizeName(main.name)
     .. "|"
@@ -452,8 +567,16 @@ for _,v in pairs(grouped) do
     table.insert(ordered, v)
 end
 
-table.sort(ordered, function(a, b)
-    return a.value > b.value
+table.sort(ordered, function(a,b)
+
+    local pa = PRIORITY[a.name] or math.huge
+    local pb = PRIORITY[b.name] or math.huge
+
+    if pa == pb then
+        return a.value > b.value
+    else
+        return pa < pb
+    end
 end)
 
 -- construir texto FINAL (SIN LISTA)
