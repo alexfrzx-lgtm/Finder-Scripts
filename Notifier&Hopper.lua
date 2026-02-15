@@ -60,6 +60,7 @@ local blockedPlayers = {
 ["Wolf_las3r1891"]=true,
 ["Alexstarbird47"]=true,
 ["cloudsunny2274"]=true,
+["GOG_Alex"]=true,
 }
 
 -- SERVICES
@@ -143,11 +144,33 @@ local function forceHop()
     triedServers = {}
 end
 
+-- CHEQUEO INMEDIATO DE BLOCKED
+local function checkBlockedNow()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if blockedPlayers[plr.Name] then
+            text.Text = "Detectado "..plr.Name.." ! Hop inmediato..."
+            forceHop()
+            return
+        end
+    end
+end
+
 -- DETECTAR Players.PlayerAdded:Connect(function(plr) if blockedPlayers[plr.Name] then text.Text = "Detectado "..plr.Name.." ! Hop inmediato..." forceHop() end end)
 
--- LOOP NORMAL (HOP CADA 7s)
+-- REVISAR SI YA ESTÁN EN EL SERVER
+checkBlockedNow()
 
-local HOP_TIME = 7
+-- REVISIÓN CONSTANTE ULTRA RÁPIDA
+task.spawn(function()
+    while true do
+        checkBlockedNow()
+        task.wait(0.5)
+    end
+end)
+
+-- LOOP NORMAL (HOP CADA 25)
+
+local HOP_TIME = 25
 
 task.spawn(function()
     while true do
@@ -545,10 +568,10 @@ lastHashRef[hash] = true
 
     local grouped = {}
 
--- CONTAR brainrots por nombre
+-- CONTAR brainrots por nombre + valor
 for i = 1, #list do
     local v = list[i]
-    local key = v.name
+    local key = v.name .. "_" .. tostring(v.value) -- clave única combinando nombre + dinero
 
     grouped[key] = grouped[key] or {
         name = v.name,
@@ -557,6 +580,7 @@ for i = 1, #list do
     }
     grouped[key].count += 1
 end
+
 
 local others = ""
 local hasOthers = false
