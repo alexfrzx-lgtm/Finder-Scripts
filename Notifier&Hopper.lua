@@ -625,15 +625,15 @@ end
 -- EMBED
 
 local embed = {
-    title = "# 🍀 " .. main.name,
-    color = 7733112, -- #75ff78 convertido correctamente
+    color = 7733112, -- #75ff78
 
     author = {
         name = "💫 Hydra Highlights"
     },
 
     description =
-        "# (" .. formatMoney(main.value) .. ")\n\n",
+        "# 🍀 " .. main.name .. "\n" ..
+        "# 🏷️ (" .. formatMoney(main.value) .. ")\n\n",
 
     footer = {
         text = "Hydra Finder"
