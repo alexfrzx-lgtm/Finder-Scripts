@@ -625,11 +625,11 @@ end
 -- EMBED
 
 local embed = {
-    title = "**" .. main.name .. "**",
+    title = "🍀 # " .. main.name .. "",
     color = 2829618,
     description = "**— " .. formatMoney(main.value) .. "**\n\n",
     footer = {
-        text = "BryAll Notifier "
+        text = "Hydra Finder "
     },
    
 }
@@ -653,7 +653,7 @@ embed.description = embed.description ..
 
 if hasOthers then
     embed.description = embed.description ..
-        "**Others Brainrots**\n```" .. others .. "```\n\n"
+        "**🏷️ Otros Brainrots Detectados:**\n```" .. others .. "```\n\n"
 end
 
 -- THUMBNAIL
