@@ -626,7 +626,7 @@ end
 
 local embed = {
     title = "# 🍀 " .. main.name, -- ESTE será el grande
-    color = #68f28f,
+    color = 68f28f,
 
     author = {
         name = "Hydra Hightlights"
