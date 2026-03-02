@@ -633,7 +633,7 @@ local embed = {
 
     description =
         "# 🍀 " .. main.name .. "\n" ..
-        "# 🏷️ (" .. formatMoney(main.value) .. ")\n\n",
+        "## 💰 " .. formatMoney(main.value) .. "\n\n",
 
     footer = {
         text = "Hydra Finder"
