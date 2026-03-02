@@ -625,7 +625,7 @@ end
 -- EMBED
 
 local embed = {
-    title = "🍀 " .. main.name, -- Brainrot grande
+    title = "# 🍀 " .. main.name, -- Brainrot grande
     color = 7733112, -- #75ff78 convertido
 
     author = {
