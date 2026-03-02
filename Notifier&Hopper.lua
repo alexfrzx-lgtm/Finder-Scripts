@@ -625,13 +625,19 @@ end
 -- EMBED
 
 local embed = {
-    title = "🍀# " .. main.name .. "",
+    title = "🍀 " .. main.name, -- ESTE será el grande
     color = 2829618,
-    description = "**— " .. formatMoney(main.value) .. "**\n\n",
-    footer = {
-        text = "Hydra Finder "
+
+    author = {
+        name = "Hydra Finder"
     },
-   
+
+    description =
+        "# (" .. formatMoney(main.value) .. ")\n\n",
+
+    footer = {
+        text = "Hydra System"
+    },
 }
 
 
