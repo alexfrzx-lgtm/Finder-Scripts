@@ -625,7 +625,7 @@ end
 -- EMBED
 
 local embed = {
-    title = "🍀 " .. main.name,
+    title = "# 🍀 " .. main.name,
     color = 7733112, -- #75ff78 convertido correctamente
 
     author = {
