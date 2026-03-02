@@ -625,7 +625,7 @@ end
 -- EMBED
 
 local embed = {
-    title = "🍀 #" .. main.name .. "",
+    title = "🍀# " .. main.name .. "",
     color = 2829618,
     description = "**— " .. formatMoney(main.value) .. "**\n\n",
     footer = {
