@@ -625,7 +625,7 @@ end
 -- EMBED
 
 local embed = {
-    title = "🍀 # " .. main.name .. "",
+    title = "🍀 #" .. main.name .. "",
     color = 2829618,
     description = "**— " .. formatMoney(main.value) .. "**\n\n",
     footer = {
@@ -637,7 +637,7 @@ local embed = {
 
 -- Producción
 
-embed.description = "**(" .. formatMoney(main.value) .. ")**\n\n"
+embed.description = "# (" .. formatMoney(main.value) .. ")\n\n"
 
 -- SERVER ID
 
