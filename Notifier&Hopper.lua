@@ -625,11 +625,11 @@ end
 -- EMBED
 
 local embed = {
-    title = "# 🍀 " .. main.name, -- ESTE será el grande
-    color = 68f28f,
+    title = "🍀 " .. main.name, -- Brainrot grande
+    color = 7733112, -- #75ff78 convertido
 
     author = {
-        name = "Hydra Hightlights"
+        name = "💫 Hydra Highlights"
     },
 
     description =
@@ -639,7 +639,6 @@ local embed = {
         text = "Hydra Finder"
     },
 }
-
 
 -- Producción
 
