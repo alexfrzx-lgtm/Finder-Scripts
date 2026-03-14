@@ -1,13 +1,13 @@
 ---------------- CONFIG ----------------
 -- WEBHOOKS
-local WEBHOOK_50M = "https://discord.com/api/webhooks/1465393299002228858/wJ2z0hQANHLFhCBmyVr3ATFdVG2AzZw_EmkmXd6NpPhcprJx5ppJ2_-otme0ggofFA_m"
-local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1466366115876835372/0oNv0nzzK9FfO0a_NnmuyoT_SRVPbQt_rDpjUoFGPgB5k2QnGeFLMrveop5tzqLuAbIc"
+local WEBHOOK_10M = "https://discord.com/api/webhooks/1481147254671937556/T96ZHza3GdVQcxn2p9nb3NQq295_9bQTNCNmwdIeotzdzscCP8jVXwI7htSANwrZNoQ9"
+local WEBHOOK_SHOWCASE = "https://discord.com/api/webhooks/1481836874363305994/_Kn8WNVmUWiKtnKVg6SZncZiufuUR071zNb0TtsLVe7ahydUbYOdHYLCCUQKidXu06v8"
 
 -- MINIMOS
-local MIN_PRODUCTION_50M = 50_000_000
+local MIN_PRODUCTION_10M = 10_000_000
 
--- 🔔 PINGS
-local PING_HERE_AT = 550_000_000
+-- PINGS
+local PING_HERE_AT = 100_000_000
 
 local SCAN_DELAY = 0.1
 
@@ -332,13 +332,13 @@ end
 -- EMBED
 --------------------------------------------------
 local embed = {
-    title = "**" .. main.name .. "**",
+    title = "💎 **" .. main.name .. "**",
     color = 2829618,
     description = "**— " .. formatMoney(main.value) .. "**\n\n",
     footer = {
-        text = "BryAll Notifier "
+        text = "L Hub"
     },
-    timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+   
 }
 
 
@@ -350,20 +350,20 @@ embed.description = "**(" .. formatMoney(main.value) .. ")**\n\n"
 -- SERVER ID
 --------------------------------------------------
 embed.description = embed.description ..
-    "**Server ID**\n```" .. jobId .. "```\n"
+    "**Join Server ID**\n```" .. jobId .. "```\n"
 
 --------------------------------------------------
 -- JOIN SERVER
 --------------------------------------------------
 embed.description = embed.description ..
-    "**Join Server**\n[CLICK TO JOIN](" .. joinLink .. ")\n\n"
+    "**Join Server**\n[**CLICK TO JOIN**](" .. joinLink .. ")\n\n"
 
 --------------------------------------------------
 -- OTHER BRAINROTS
 --------------------------------------------------
 if hasOthers then
     embed.description = embed.description ..
-        "**Other Brainrots**\n```" .. others .. "```\n\n"
+        "**🌟 Otros Brainrots Detectados**\n```" .. others .. "```\n\n"
 end
 
 --------------------------------------------------
@@ -390,8 +390,8 @@ http_request({
     })
 })
 
--- 🔥 SHOWCASE (COPIA DE LA 50M)
-if webhook == WEBHOOK_50M then
+-- 🔥 SHOWCASE (COPIA DE LA 10M)
+if webhook == WEBHOOK_10M then
     local showcaseEmbed = HttpService:JSONDecode(HttpService:JSONEncode(embed))
 
     -- ❌ QUITAR COMPLETAMENTE SERVER ID Y JOIN SERVER
@@ -444,7 +444,7 @@ label.Parent = screenGui
 
 task.spawn(function()
     while true do
-        send(scan(MIN_PRODUCTION_50M), WEBHOOK_50M, false, notified50M)
+        send(scan(MIN_PRODUCTION_10M), WEBHOOK_10M, false, notified10M)
         task.wait(SCAN_DELAY)
     end
 end)
