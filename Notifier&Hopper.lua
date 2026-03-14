@@ -645,7 +645,7 @@ embed.description = embed.description ..
 -- JOIN SERVER
 
 embed.description = embed.description ..
-    "**Join Server**\n[CLICK TO JOIN](" .. joinLink .. ")\n\n"
+    "**Join Server**\n[**CLICK TO JOIN**](" .. joinLink .. ")\n\n"
 
 -- OTHER BRAINROTS
 
