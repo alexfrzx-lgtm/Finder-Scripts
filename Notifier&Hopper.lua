@@ -625,21 +625,14 @@ end
 -- EMBED
 
 local embed = {
-    color = 7733112, -- #75ff78
-
-    author = {
-        name = "💫 Hydra Highlights"
-    },
-
-    description =
-        "# 🍀 " .. main.name .. "\n" ..
-        "## 💰 " .. formatMoney(main.value) .. "\n\n",
-
+    title = "💎 **" .. main.name .. "**",
+    color = 2829618,
+    description = "**— " .. formatMoney(main.value) .. "**\n\n",
     footer = {
-        text = "Hydra Finder"
+        text = "L Hub • Notifier "
     },
+   
 }
-
 -- Producción
 
 embed.description = "# (" .. formatMoney(main.value) .. ")\n\n"
@@ -647,7 +640,7 @@ embed.description = "# (" .. formatMoney(main.value) .. ")\n\n"
 -- SERVER ID
 
 embed.description = embed.description ..
-    "**Server ID**\n```" .. jobId .. "```\n"
+    "**Join ID**\n```" .. jobId .. "```\n"
 
 -- JOIN SERVER
 
@@ -658,7 +651,7 @@ embed.description = embed.description ..
 
 if hasOthers then
     embed.description = embed.description ..
-        "**🏷️ Otros Brainrots Detectados:**\n```" .. others .. "```\n\n"
+        "**📌 Otros Brainrots Detectados:**\n```" .. others .. "```\n\n"
 end
 
 -- THUMBNAIL
