@@ -254,7 +254,7 @@ end
 -- WEBHOOK
 --------------------------------------------------
 
-local notified50M = {}
+local notified10M = {}
 local notifiedShowcase = {}
 
 local function send(list, webhook, pingRole, lastHashRef)
